@@ -1,19 +1,23 @@
 package com.example.admin.screens.map
 
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.example.admin.R
-
-import com.google.android.gms.maps.CameraUpdateFactory
+import com.example.admin.databinding.ActivityMapsBinding
+import com.example.admin.utils.LocationManager
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
 class MapsActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
+
+    lateinit var binding: ActivityMapsBinding
 
     @Inject
     lateinit var mainViewModelFactory: MapViewModelFactory
@@ -22,25 +26,73 @@ class MapsActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
 
+    private val locationManager = LocationManager(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_maps)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_maps)
 
         initViewModel()
 
-        initMap()
+        locationManager.checkLocationPermission()
     }
 
     private fun initViewModel() {
         mapViewModel = ViewModelProviders.of(this, mainViewModelFactory).get(MapViewModel::class.java)
-        //binding.viewModel = mapViewModel
-        //binding.executePendingBindings()
+        binding.viewModel = mapViewModel
+        binding.executePendingBindings()
     }
 
-    private fun initMap() {
+    fun initMap() {
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+        initSpinners()
+    }
+
+    private fun initSpinners() {
+        initDistanceSpinner()
+        initNetworkSpinner()
+        initBankSpinner()
+    }
+
+    private fun initDistanceSpinner() {
+        val distances = arrayListOf("100", "200", "500", "1000")
+        binding.distanceSpinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, distances)
+        binding.distanceSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+                mapViewModel.setDistance(distances[pos])
+            }
+        }
+    }
+
+    private fun initNetworkSpinner() {
+        val networks = arrayListOf("","LINK","BANELCO")
+        binding.networkSpinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, networks)
+        binding.networkSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+                mapViewModel.setNetwork(networks[pos])
+            }
+        }
+    }
+
+    private fun initBankSpinner() {
+        val banks = arrayListOf("","NUEVO BANCO DE SANTA FE S.A.","BANCO DE LA NACION ARGENTINA","BANCO DEL CHUBUT S.A.","BANCO DE SANTA CRUZ S.A.","BANCO DE LA CIUDAD DE BUENOS AIRES","BANCO DE FORMOSA S.A.","CABAL COOP. LTDA.","BANCO DE LA PROVINCIA DE BUENOS AIRES","BANCO PIANO S.A.","BANCO HIPOTECARIO S.A.","CAJERO EXPRESS","BANCO DE COMERCIO","NUEVO BCO. INDUSTRIAL DE AZUL S.A.","BANCO SAENZ S.A.","BANCO DE LA PROVINCIA DE CORDOBA S.A.","BANCO DE SAN JUAN S.A.","NUEVO BANCO DE ENTRE RIOS S.A.","BANCO DE LA PROVINCIA DEL NEUQUEN","BANCO DE LA PAMPA","BANCO DE SANTIAGO DEL ESTERO S.A.","BANCO DE CORRIENTES S.A.","BANCO FINANSUR S.A.","BANCO PCIA. DE TIERRA DEL FUEGO","NUEVO BANCO DEL CHACO S.A.","BANCO MERIDIAN S.A.","HSBC Bank Argentina","BBVA Banco Francés","Banco Galicia","Banco Supervielle","Banco Santander Río","CitiBank","Banco Macro","Banco Comafi","ICBC","Banco Itaú","Banco Patagonia","Compania Financiera","Banco Columbia","Banco del Sol")
+        binding.bankSpinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, banks)
+        binding.bankSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+                mapViewModel.setBank(banks[pos])
+            }
+        }
     }
 
     /**
@@ -53,11 +105,10 @@ class MapsActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
      * installed Google Play services and returned to the app.
      */
     override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
+        mapViewModel.onMapReady(googleMap)
+    }
 
-        // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        locationManager.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 }

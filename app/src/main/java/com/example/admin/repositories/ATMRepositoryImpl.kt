@@ -1,11 +1,24 @@
 package com.example.admin.repositories
 
+import com.example.admin.models.ATM
+import io.reactivex.Observable
 import javax.inject.Singleton
 
 @Singleton
 class ATMRepositoryImpl(private val remoteDataSource: ATMRemoteRepository) : ATMRepository {
 
-    override fun getATMs() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getATMs(
+        bank: String, distance: Double, network: String, lat: Double, long: Double
+    ): Observable<ArrayList<ATM>> {
+        return remoteDataSource.getATMs(bank, distance, network, lat, long)
     }
+
+    override fun getBanks(): Observable<ArrayList<String>> {
+        return remoteDataSource.getBanks()
+    }
+
+    override fun getNetworks(): Observable<ArrayList<String>> {
+        return remoteDataSource.getNetworks()
+    }
+
 }
