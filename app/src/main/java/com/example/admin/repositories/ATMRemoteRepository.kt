@@ -13,8 +13,8 @@ class ATMRemoteRepository @Inject constructor(private var atmService: ATMService
         return atmService.getATMs(bank, distance, network, lat, long)
     }
 
-    fun getBanks(): Observable<ArrayList<String>> {
-        return atmService.getBanks()
+    fun getBanks(network: String): Observable<ArrayList<String>> {
+        return atmService.getBanks(network)
     }
 
     fun getNetworks(): Observable<ArrayList<String>> {

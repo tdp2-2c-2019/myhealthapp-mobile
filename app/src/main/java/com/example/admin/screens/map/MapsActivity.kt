@@ -4,15 +4,19 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.admin.R
 import com.example.admin.databinding.ActivityMapsBinding
+import com.example.admin.models.ATM
 import com.example.admin.utils.LocationManager
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import dagger.android.support.DaggerAppCompatActivity
+import kotlinx.android.synthetic.main.activity_maps.*
 import javax.inject.Inject
 
 class MapsActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
@@ -24,8 +28,6 @@ class MapsActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
 
     lateinit var mapViewModel: MapViewModel
 
-    private lateinit var mMap: GoogleMap
-
     private val locationManager = LocationManager(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +37,8 @@ class MapsActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
         initViewModel()
 
         locationManager.checkLocationPermission()
+
+        observeATMs()
     }
 
     private fun initViewModel() {
@@ -54,17 +58,20 @@ class MapsActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
         initDistanceSpinner()
         initNetworkSpinner()
         initBankSpinner()
+        observeBanks()
     }
 
     private fun initDistanceSpinner() {
         val distances = arrayListOf("100", "200", "500", "1000")
         binding.distanceSpinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, distances)
+        binding.distanceSpinner.setSelection(2)
         binding.distanceSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
                 mapViewModel.setDistance(distances[pos])
+                mapViewModel.loadATMs()
             }
         }
     }
@@ -78,12 +85,14 @@ class MapsActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
                 mapViewModel.setNetwork(networks[pos])
+                mapViewModel.loadBanks()
+                mapViewModel.loadATMs()
             }
         }
     }
 
-    private fun initBankSpinner() {
-        val banks = arrayListOf("","NUEVO BANCO DE SANTA FE S.A.","BANCO DE LA NACION ARGENTINA","BANCO DEL CHUBUT S.A.","BANCO DE SANTA CRUZ S.A.","BANCO DE LA CIUDAD DE BUENOS AIRES","BANCO DE FORMOSA S.A.","CABAL COOP. LTDA.","BANCO DE LA PROVINCIA DE BUENOS AIRES","BANCO PIANO S.A.","BANCO HIPOTECARIO S.A.","CAJERO EXPRESS","BANCO DE COMERCIO","NUEVO BCO. INDUSTRIAL DE AZUL S.A.","BANCO SAENZ S.A.","BANCO DE LA PROVINCIA DE CORDOBA S.A.","BANCO DE SAN JUAN S.A.","NUEVO BANCO DE ENTRE RIOS S.A.","BANCO DE LA PROVINCIA DEL NEUQUEN","BANCO DE LA PAMPA","BANCO DE SANTIAGO DEL ESTERO S.A.","BANCO DE CORRIENTES S.A.","BANCO FINANSUR S.A.","BANCO PCIA. DE TIERRA DEL FUEGO","NUEVO BANCO DEL CHACO S.A.","BANCO MERIDIAN S.A.","HSBC Bank Argentina","BBVA Banco Francés","Banco Galicia","Banco Supervielle","Banco Santander Río","CitiBank","Banco Macro","Banco Comafi","ICBC","Banco Itaú","Banco Patagonia","Compania Financiera","Banco Columbia","Banco del Sol")
+    private fun initBankSpinner(filteredBanks: ArrayList<String> = arrayListOf()) {
+        val banks = arrayListOf("") + filteredBanks
         binding.bankSpinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, banks)
         binding.bankSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -91,8 +100,32 @@ class MapsActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
                 mapViewModel.setBank(banks[pos])
+                mapViewModel.loadATMs()
             }
         }
+    }
+
+    private fun observeBanks() {
+        mapViewModel.banks.observe(
+            this,
+            Observer<ArrayList<String>> { initBankSpinner(it) }
+        )
+    }
+
+    private fun observeATMs() {
+        mapViewModel.ATMs.observe(
+            this,
+            Observer<ArrayList<ATM>> {
+                if (it.isEmpty()) showEmptyDialog()
+                else mapViewModel.setMarkers(it)
+            }
+        )
+    }
+
+    private fun showEmptyDialog() {
+        AlertDialog.Builder(this)
+            .setMessage("No existen resultados. Por favor pruebe con un radio más grande")
+            .show()
     }
 
     /**

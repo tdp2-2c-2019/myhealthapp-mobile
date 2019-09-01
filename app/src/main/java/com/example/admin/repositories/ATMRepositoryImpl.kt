@@ -13,8 +13,8 @@ class ATMRepositoryImpl(private val remoteDataSource: ATMRemoteRepository) : ATM
         return remoteDataSource.getATMs(bank, distance, network, lat, long)
     }
 
-    override fun getBanks(): Observable<ArrayList<String>> {
-        return remoteDataSource.getBanks()
+    override fun getBanks(network: String): Observable<ArrayList<String>> {
+        return remoteDataSource.getBanks(network)
     }
 
     override fun getNetworks(): Observable<ArrayList<String>> {

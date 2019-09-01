@@ -3,6 +3,7 @@ package com.example.admin.screens.map
 import android.location.Location
 import android.util.Log
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.admin.models.ATM
 import com.example.admin.repositories.ATMRepository
@@ -18,6 +19,10 @@ class MapViewModel(private var ATMRepository: ATMRepository) : ViewModel() {
 
     val isLoading = ObservableField(true)
 
+    val banks = MutableLiveData<ArrayList<String>>()
+
+    val ATMs = MutableLiveData<ArrayList<ATM>>()
+
     private val compositeDisposable = CompositeDisposable()
 
     private lateinit var mMap: GoogleMap
@@ -31,6 +36,7 @@ class MapViewModel(private var ATMRepository: ATMRepository) : ViewModel() {
     private var bank: String = ""
 
     fun loadATMs() {
+        if (network.isEmpty() || bank.isEmpty()) return
         compositeDisposable.add(
             ATMRepository.getATMs(bank, distance, network, lastKnownLocation.latitude, lastKnownLocation.longitude)
                 .subscribeOn(Schedulers.io())
@@ -39,13 +45,29 @@ class MapViewModel(private var ATMRepository: ATMRepository) : ViewModel() {
                 .doOnComplete { isLoading.set(false) }
                 .doOnError { isLoading.set(false) }
                 .subscribe(
-                    { setMarkers(it) },
-                    { Log.d("ERROR", "FORECAST REQUEST ERROR", it) }
+                    { ATMs.value = it },
+                    { Log.d("ERROR", "ATM REQUEST ERROR", it) }
                 )
         )
     }
 
-    private fun setMarkers(ATMs: ArrayList<ATM>) {
+    fun loadBanks() {
+        if (network.isEmpty()) return
+        compositeDisposable.add(
+            ATMRepository.getBanks(network)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { isLoading.set(true) }
+                .doOnComplete { isLoading.set(false) }
+                .doOnError { isLoading.set(false) }
+                .subscribe(
+                    { banks.value = it },
+                    { Log.d("ERROR", "BANKS REQUEST ERROR", it) }
+                )
+        )
+    }
+
+    fun setMarkers(ATMs: ArrayList<ATM>) {
         mMap.clear()
         ATMs.forEach {
             val location = LatLng(it.lat, it.long)
@@ -55,6 +77,8 @@ class MapViewModel(private var ATMRepository: ATMRepository) : ViewModel() {
 
     fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        mMap.isMyLocationEnabled = true
+        mMap.uiSettings.isMyLocationButtonEnabled = true
 
         lastKnownLocation.let {
             val location = LatLng(it.latitude, it.longitude)
@@ -77,7 +101,6 @@ class MapViewModel(private var ATMRepository: ATMRepository) : ViewModel() {
 
     fun setBank(bankSelected: String) {
         bank = bankSelected
-        loadATMs()
     }
 
     override fun onCleared() {

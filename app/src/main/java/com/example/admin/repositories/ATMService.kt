@@ -17,7 +17,9 @@ interface ATMService {
     ): Observable<ArrayList<ATM>>
 
     @GET("atms/banks")
-    fun getBanks(): Observable<ArrayList<String>>
+    fun getBanks(
+        @Query("network") network: String
+    ): Observable<ArrayList<String>>
 
     @GET("atms/networks")
     fun getNetworks(): Observable<ArrayList<String>>
