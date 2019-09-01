@@ -14,12 +14,12 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.admin.R
 import com.example.admin.databinding.ActivityMapsBinding
 import com.example.admin.models.ATM
+import com.example.admin.utils.CustomInfoMarker
 import com.example.admin.utils.LocationManager
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import dagger.android.support.DaggerAppCompatActivity
-import kotlinx.android.synthetic.main.activity_maps.*
 import javax.inject.Inject
 
 class MapsActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
@@ -98,6 +98,7 @@ class MapsActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
                 mapViewModel.setNetwork(networks[pos])
+                mapViewModel.setBank("")
                 mapViewModel.loadBanks()
                 mapViewModel.loadATMs()
             }
@@ -180,7 +181,8 @@ class MapsActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
      * installed Google Play services and returned to the app.
      */
     override fun onMapReady(googleMap: GoogleMap) {
-        mapViewModel.onMapReady(googleMap)
+        val customInfoWindow = CustomInfoMarker(this)
+        mapViewModel.onMapReady(googleMap, customInfoWindow)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {

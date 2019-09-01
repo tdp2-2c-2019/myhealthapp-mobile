@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.admin.models.ATM
 import com.example.admin.repositories.ATMRepository
+import com.example.admin.utils.CustomInfoMarker
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
@@ -74,14 +75,16 @@ class MapViewModel(private var ATMRepository: ATMRepository) : ViewModel() {
         mMap.clear()
         ATMs.forEach {
             val location = LatLng(it.lat, it.long)
-            mMap.addMarker(MarkerOptions().position(location).title(it.address))
+            val marker = mMap.addMarker(MarkerOptions().position(location))
+            marker.tag = it
         }
     }
 
-    fun onMapReady(googleMap: GoogleMap) {
+    fun onMapReady(googleMap: GoogleMap, customInfoWindow: CustomInfoMarker) {
         mMap = googleMap
         mMap.isMyLocationEnabled = true
         mMap.uiSettings.isMyLocationButtonEnabled = true
+        mMap.setInfoWindowAdapter(customInfoWindow)
 
         lastKnownLocation.let {
             val location = LatLng(it.latitude, it.longitude)
