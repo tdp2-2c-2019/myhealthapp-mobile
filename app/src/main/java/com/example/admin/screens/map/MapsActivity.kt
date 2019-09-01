@@ -1,5 +1,8 @@
 package com.example.admin.screens.map
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -32,12 +35,22 @@ class MapsActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        checkConnectivity()
+    }
+
+    private fun checkConnectivity() {
+        val cm = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
+        val isConnected: Boolean = activeNetwork?.isConnected == true
+
+        if(isConnected) init()
+        else showInitialNetworkDialog()
+    }
+
+    private fun init() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_maps)
-
         initViewModel()
-
         locationManager.checkLocationPermission()
-
         observeATMs()
     }
 
@@ -116,15 +129,44 @@ class MapsActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
         mapViewModel.ATMs.observe(
             this,
             Observer<ArrayList<ATM>> {
-                if (it.isEmpty()) showEmptyDialog()
-                else mapViewModel.setMarkers(it)
+                when {
+                    it === null -> showNetworkDialog()
+                    it.isEmpty() -> showEmptyDialog()
+                    else -> mapViewModel.setMarkers(it)
+                }
             }
         )
     }
 
     private fun showEmptyDialog() {
+        if(mapViewModel.distance.equals(1.0))
+            AlertDialog.Builder(this)
+                .setMessage(R.string.empty_max_range)
+                .show()
+        else
+            AlertDialog.Builder(this)
+                .setMessage(R.string.empty_range)
+                .show()
+    }
+
+    fun showLocationDialog() {
         AlertDialog.Builder(this)
-            .setMessage("No existen resultados. Por favor pruebe con un radio más grande")
+            .setMessage(R.string.location_error)
+            .setPositiveButton("Reintentar") { _, _ -> locationManager.checkLocationPermission()}
+            .show()
+    }
+
+    private fun showNetworkDialog() {
+        AlertDialog.Builder(this)
+            .setMessage(R.string.connection_lost)
+            .show()
+    }
+
+    private fun showInitialNetworkDialog() {
+        AlertDialog.Builder(this)
+            .setMessage(R.string.no_connection_error)
+            .setPositiveButton("Reintentar") { _, _ -> checkConnectivity()}
+            .setCancelable(false)
             .show()
     }
 

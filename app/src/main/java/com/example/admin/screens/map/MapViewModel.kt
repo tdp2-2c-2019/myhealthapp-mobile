@@ -29,7 +29,7 @@ class MapViewModel(private var ATMRepository: ATMRepository) : ViewModel() {
 
     private lateinit var lastKnownLocation: Location
 
-    private var distance: Double = 0.5
+    var distance: Double = 0.5
 
     private var network: String = ""
 
@@ -41,12 +41,15 @@ class MapViewModel(private var ATMRepository: ATMRepository) : ViewModel() {
             ATMRepository.getATMs(bank, distance, network, lastKnownLocation.latitude, lastKnownLocation.longitude)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { isLoading.set(true) }
+                .doOnSubscribe {
+                    isLoading.set(true)
+                    mMap.clear()
+                }
                 .doOnComplete { isLoading.set(false) }
                 .doOnError { isLoading.set(false) }
                 .subscribe(
                     { ATMs.value = it },
-                    { Log.d("ERROR", "ATM REQUEST ERROR", it) }
+                    { ATMs.value = null }
                 )
         )
     }

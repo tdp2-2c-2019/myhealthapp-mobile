@@ -50,7 +50,7 @@ class LocationManager(private val activity: MapsActivity) {
     }
 
     private fun loadDefaultLocation() {
-
+        activity.showLocationDialog()
     }
 
     private fun hasLocationPermission() =
