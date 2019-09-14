@@ -1,11 +1,12 @@
-package com.example.admin.repositories
+package com.example.admin.repositories.atm
 
 import com.example.admin.models.ATM
 import io.reactivex.Observable
 import javax.inject.Singleton
 
 @Singleton
-class ATMRepositoryImpl(private val remoteDataSource: ATMRemoteRepository) : ATMRepository {
+class ATMRepositoryImpl(private val remoteDataSource: ATMRemoteRepository) :
+    ATMRepository {
 
     override fun getATMs(
         bank: String, distance: Double, network: String, lat: Double, long: Double

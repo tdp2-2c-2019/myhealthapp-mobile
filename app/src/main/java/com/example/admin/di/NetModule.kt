@@ -1,9 +1,13 @@
 package com.example.admin.di
 
-import com.example.admin.repositories.ATMRemoteRepository
-import com.example.admin.repositories.ATMRepository
-import com.example.admin.repositories.ATMRepositoryImpl
-import com.example.admin.repositories.ATMService
+import com.example.admin.repositories.atm.ATMRemoteRepository
+import com.example.admin.repositories.atm.ATMRepository
+import com.example.admin.repositories.atm.ATMRepositoryImpl
+import com.example.admin.repositories.atm.ATMService
+import com.example.admin.repositories.login.LoginRemoteRepository
+import com.example.admin.repositories.login.LoginRepository
+import com.example.admin.repositories.login.LoginRepositoryImpl
+import com.example.admin.repositories.login.LoginService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -41,7 +45,16 @@ class NetModule {
 
     @Provides
     @Singleton
+    fun provideLoginService(retrofit: Retrofit): LoginService = retrofit.create(LoginService::class.java)
+
+    @Provides
+    @Singleton
     fun provideWeatherRepository(atmRemoteRepository: ATMRemoteRepository): ATMRepository =
         ATMRepositoryImpl(atmRemoteRepository)
+
+    @Provides
+    @Singleton
+    fun provideLoginRepository(loginRemoteRepository: LoginRemoteRepository): LoginRepository =
+        LoginRepositoryImpl(loginRemoteRepository)
 
 }

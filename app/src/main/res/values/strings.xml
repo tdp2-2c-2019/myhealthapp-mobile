@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">MyHealthApp</string>
+    <string name="title_activity_sign_in">Registro</string>
     <string name="title_activity_maps">Map</string>
     <string name="empty_max_range">No existen resultados. Por favor muevase por la ciudad y vuelva a intentarlo</string>
     <string name="empty_range">No existen resultados. Por favor pruebe con un radio más grande</string>

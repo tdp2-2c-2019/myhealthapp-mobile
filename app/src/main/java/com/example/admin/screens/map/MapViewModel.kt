@@ -6,7 +6,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.admin.models.ATM
-import com.example.admin.repositories.ATMRepository
+import com.example.admin.repositories.atm.ATMRepository
 import com.example.admin.utils.CustomInfoMarker
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap

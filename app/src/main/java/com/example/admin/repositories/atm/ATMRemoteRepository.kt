@@ -1,4 +1,4 @@
-package com.example.admin.repositories
+package com.example.admin.repositories.atm
 
 import com.example.admin.models.ATM
 import io.reactivex.Observable
