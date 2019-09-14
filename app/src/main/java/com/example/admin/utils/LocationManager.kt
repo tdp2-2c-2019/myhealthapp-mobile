@@ -36,10 +36,12 @@ class LocationManager(private val activity: MapsActivity) {
         fusedLocationClient.lastLocation.apply {
 
             addOnSuccessListener { location: Location? ->
-                location?.let {
-                    activity.mapViewModel.setLastKnownLocation(it)
-                    activity.initMap()
-                }
+                if(location === null) loadDefaultLocation()
+                else
+                    location.let {
+                        activity.mapViewModel.setLastKnownLocation(it)
+                        activity.initMap()
+                    }
             }
 
             addOnFailureListener {
