@@ -28,6 +28,7 @@ class LoginActivity : DaggerAppCompatActivity() {
 
     private fun init() {
         initViewModel()
+        initLogInListener()
         initSignInListener()
     }
 
@@ -40,6 +41,15 @@ class LoginActivity : DaggerAppCompatActivity() {
     private fun initSignInListener() {
         binding.signInBtn.setOnClickListener {
             startActivity(Intent(this, SignInActivity::class.java))
+        }
+    }
+
+    private fun initLogInListener() {
+        binding.loginBtn.setOnClickListener {
+            loginViewModel.login(
+                binding.dniInput.text.toString(),
+                binding.passwordInput.text.toString()
+            )
         }
     }
 
