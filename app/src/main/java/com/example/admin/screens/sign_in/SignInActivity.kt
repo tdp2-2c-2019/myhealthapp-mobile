@@ -1,7 +1,9 @@
 package com.example.admin.screens.sign_in
 
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.admin.R
 import com.example.admin.databinding.ActivitySignInBinding
@@ -27,6 +29,7 @@ class SignInActivity : DaggerAppCompatActivity() {
     private fun init() {
         initViewModel()
         initSignInListener()
+        observeSignIn()
     }
 
     private fun initViewModel() {
@@ -48,4 +51,28 @@ class SignInActivity : DaggerAppCompatActivity() {
             )
         }
     }
+
+    private fun observeSignIn() {
+        signInViewModel.signInSuccess.observe(
+            this,
+            Observer<Boolean> {
+                if(it) goHome()
+                else showErrorDialog()
+            }
+        )
+    }
+
+    private fun showErrorDialog() {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.sign_in_error)
+            .setMessage(signInViewModel.error.get())
+            .show()
+    }
+
+    private fun goHome() {
+        AlertDialog.Builder(this)
+            .setMessage("SUCCESS")
+            .show()
+    }
+
 }

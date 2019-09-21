@@ -7,4 +7,6 @@
     <string name="location_error">No se puede obtener la ubicación. Por favor active la ubicación y vuelva a intentarlo</string>
     <string name="connection_lost">Se perdió la conexión a Internet. Por favor active el Wifi o los datos moviles y vuelva a intentarlo</string>
     <string name="no_connection_error">No tienes conexión a Internet. Por favor active el Wifi o los datos moviles y vuelva a intentarlo</string>
+    <string name="sign_in_error">Error en el registro</string>
+    <string name="log_in_error">Error al iniciar sesión</string>
 </resources>

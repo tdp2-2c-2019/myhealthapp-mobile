@@ -33,7 +33,7 @@ class NetModule {
     @Singleton
     fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
-            .baseUrl("https://tdp2-tp0-backend.herokuapp.com/")
+            .baseUrl("https://myhealthapp-backend.herokuapp.com/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .client(okHttpClient)
