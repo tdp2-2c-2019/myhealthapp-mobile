@@ -2,6 +2,8 @@ package com.example.admin.screens.sign_in
 
 import android.os.Bundle
 import android.widget.ArrayAdapter
+import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -67,7 +69,7 @@ class SignInActivity : DaggerAppCompatActivity() {
         signInViewModel.signInSuccess.observe(
             this,
             Observer<Boolean> {
-                if(it) goHome()
+                if(it) goBack()
                 else showErrorDialog()
             }
         )
@@ -80,10 +82,9 @@ class SignInActivity : DaggerAppCompatActivity() {
             .show()
     }
 
-    private fun goHome() {
-        AlertDialog.Builder(this)
-            .setMessage("SUCCESS")
-            .show()
+    private fun goBack() {
+        Toast.makeText(this, "¡Registro exitoso!", LENGTH_SHORT).show()
+        finish()
     }
 
 }

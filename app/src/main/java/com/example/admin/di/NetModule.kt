@@ -4,6 +4,10 @@ import com.example.admin.repositories.atm.ATMRemoteRepository
 import com.example.admin.repositories.atm.ATMRepository
 import com.example.admin.repositories.atm.ATMRepositoryImpl
 import com.example.admin.repositories.atm.ATMService
+import com.example.admin.repositories.health_services.HealthServicesRemoteRepository
+import com.example.admin.repositories.health_services.HealthServicesRepository
+import com.example.admin.repositories.health_services.HealthServicesRepositoryImpl
+import com.example.admin.repositories.health_services.HealthServicesService
 import com.example.admin.repositories.login.LoginRemoteRepository
 import com.example.admin.repositories.login.LoginRepository
 import com.example.admin.repositories.login.LoginRepositoryImpl
@@ -49,6 +53,10 @@ class NetModule {
 
     @Provides
     @Singleton
+    fun provideHealthServicesService(retrofit: Retrofit): HealthServicesService = retrofit.create(HealthServicesService::class.java)
+
+    @Provides
+    @Singleton
     fun provideWeatherRepository(atmRemoteRepository: ATMRemoteRepository): ATMRepository =
         ATMRepositoryImpl(atmRemoteRepository)
 
@@ -56,5 +64,10 @@ class NetModule {
     @Singleton
     fun provideLoginRepository(loginRemoteRepository: LoginRemoteRepository): LoginRepository =
         LoginRepositoryImpl(loginRemoteRepository)
+
+    @Provides
+    @Singleton
+    fun provideHealthServicesRepository(healthServicesRemoteRepository: HealthServicesRemoteRepository): HealthServicesRepository =
+        HealthServicesRepositoryImpl(healthServicesRemoteRepository)
 
 }

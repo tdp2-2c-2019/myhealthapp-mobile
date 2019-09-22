@@ -1,7 +1,10 @@
 package com.example.admin.di
 
 import com.example.admin.repositories.atm.ATMRepository
+import com.example.admin.repositories.health_services.HealthServicesRepository
 import com.example.admin.repositories.login.LoginRepository
+import com.example.admin.screens.health_services.HealthServicesActivity
+import com.example.admin.screens.health_services.HealthServicesViewModelFactory
 import com.example.admin.screens.login.LoginActivity
 import com.example.admin.screens.login.LoginViewModelFactory
 import com.example.admin.screens.map.MapsActivity
@@ -35,6 +38,12 @@ internal abstract class ActivitiesModule {
         internal fun providesSignInViewModelFactory(loginRepository: LoginRepository) : SignInViewModelFactory {
             return SignInViewModelFactory(loginRepository)
         }
+
+        @JvmStatic
+        @Provides
+        internal fun providesHealthServicesViewModelFactory(healthServicesRepository: HealthServicesRepository) : HealthServicesViewModelFactory {
+            return HealthServicesViewModelFactory(healthServicesRepository)
+        }
     }
 
     @ContributesAndroidInjector
@@ -45,5 +54,8 @@ internal abstract class ActivitiesModule {
 
     @ContributesAndroidInjector
     internal abstract fun signInActivity(): SignInActivity
+
+    @ContributesAndroidInjector
+    internal abstract fun healthServicesActivity(): HealthServicesActivity
 
 }

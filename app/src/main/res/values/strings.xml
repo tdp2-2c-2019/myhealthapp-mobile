@@ -2,6 +2,7 @@
     <string name="app_name">MyHealthApp</string>
     <string name="title_activity_sign_in">Registro</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_health_services">Servicios de salud</string>
     <string name="empty_max_range">No existen resultados. Por favor muevase por la ciudad y vuelva a intentarlo</string>
     <string name="empty_range">No existen resultados. Por favor pruebe con un radio más grande</string>
     <string name="location_error">No se puede obtener la ubicación. Por favor active la ubicación y vuelva a intentarlo</string>

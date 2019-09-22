@@ -45,6 +45,11 @@
         </activity>
 
         <activity
+            android:name=".screens.health_services.HealthServicesActivity"
+            android:label="@string/title_activity_health_services">
+        </activity>
+
+        <activity
             android:name=".screens.map.MapsActivity"
             android:label="@string/title_activity_maps">
         </activity>

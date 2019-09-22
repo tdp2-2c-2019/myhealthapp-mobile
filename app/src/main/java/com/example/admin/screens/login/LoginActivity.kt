@@ -2,12 +2,14 @@ package com.example.admin.screens.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.admin.R
 import com.example.admin.databinding.ActivityLoginBinding
+import com.example.admin.screens.health_services.HealthServicesActivity
 import com.example.admin.screens.sign_in.SignInActivity
 import com.example.admin.utils.Validator
 import dagger.android.support.DaggerAppCompatActivity
@@ -91,9 +93,8 @@ class LoginActivity : DaggerAppCompatActivity() {
     }
 
     private fun goHome() {
-        AlertDialog.Builder(this)
-            .setMessage("SUCCESS")
-            .show()
+        Toast.makeText(this, "¡Inicio de sesión exitoso!", Toast.LENGTH_SHORT).show()
+        startActivity(Intent(this, HealthServicesActivity::class.java))
     }
 
 }
