@@ -8,5 +8,6 @@ data class SignInForm(
     @Expose @SerializedName("first_name") val name: String,
     @Expose @SerializedName("last_name") val lastName: String,
     @Expose val mail: String,
-    @Expose val password: String
+    @Expose val password: String,
+    @Expose val plan: String
 )

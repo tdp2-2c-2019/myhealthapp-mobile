@@ -9,4 +9,7 @@
     <string name="no_connection_error">No tienes conexión a Internet. Por favor active el Wifi o los datos moviles y vuelva a intentarlo</string>
     <string name="sign_in_error">Error en el registro</string>
     <string name="log_in_error">Error al iniciar sesión</string>
+    <string name="register_link"><u>Si todavía no tenes cuenta, registrate</u></string>
+    <string name="forget_password_link"><u>¿Olvidaste tu contraseña?</u></string>
+    <string name="forget_password_text">Vas a poder recuperar tu contraseña</string>
 </resources>

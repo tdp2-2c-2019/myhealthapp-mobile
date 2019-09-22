@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.admin.R
 import com.example.admin.databinding.ActivityLoginBinding
 import com.example.admin.screens.sign_in.SignInActivity
+import com.example.admin.utils.Validator
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
@@ -32,6 +33,7 @@ class LoginActivity : DaggerAppCompatActivity() {
         initViewModel()
         initLogInListener()
         initSignInListener()
+        initForgetPasswordListener()
         observeLogIn()
     }
 
@@ -47,12 +49,20 @@ class LoginActivity : DaggerAppCompatActivity() {
         }
     }
 
+    private fun initForgetPasswordListener() {
+        binding.forgetPasswordBtn.setOnClickListener {
+            showForgetPasswordDialog()
+        }
+    }
+
     private fun initLogInListener() {
         binding.loginBtn.setOnClickListener {
-            loginViewModel.login(
-                binding.dniInput.text.toString(),
-                binding.passwordInput.text.toString()
-            )
+            if (Validator.logInValidator(binding)) {
+                loginViewModel.login(
+                    binding.dniInput.text.toString(),
+                    binding.passwordInput.text.toString()
+                )
+            }
         }
     }
 
@@ -60,7 +70,7 @@ class LoginActivity : DaggerAppCompatActivity() {
         loginViewModel.logInSuccess.observe(
             this,
             Observer<Boolean> {
-                if(it) goHome()
+                if (it) goHome()
                 else showErrorDialog()
             }
         )
@@ -70,6 +80,13 @@ class LoginActivity : DaggerAppCompatActivity() {
         AlertDialog.Builder(this)
             .setTitle(R.string.log_in_error)
             .setMessage(loginViewModel.error.get())
+            .show()
+    }
+
+    private fun showForgetPasswordDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Proximamente")
+            .setMessage(R.string.forget_password_text)
             .show()
     }
 
