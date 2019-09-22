@@ -1,6 +1,8 @@
 package com.example.admin.screens.login
 
+import android.content.Context
 import android.content.Intent
+import android.content.Intent.*
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -40,7 +42,8 @@ class LoginActivity : DaggerAppCompatActivity() {
     }
 
     private fun initViewModel() {
-        loginViewModel = ViewModelProviders.of(this, loginViewModelFactory).get(LoginViewModel::class.java)
+        loginViewModel =
+            ViewModelProviders.of(this, loginViewModelFactory).get(LoginViewModel::class.java)
         binding.viewModel = loginViewModel
         binding.executePendingBindings()
     }
@@ -93,8 +96,20 @@ class LoginActivity : DaggerAppCompatActivity() {
     }
 
     private fun goHome() {
+        saveToken()
         Toast.makeText(this, "¡Inicio de sesión exitoso!", Toast.LENGTH_SHORT).show()
-        startActivity(Intent(this, HealthServicesActivity::class.java))
+        val intent = Intent(this, HealthServicesActivity::class.java)
+        intent.addFlags(FLAG_ACTIVITY_CLEAR_TASK)
+        intent.addFlags(FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
     }
 
+    private fun saveToken() {
+        val registration = loginViewModel.registration.get()
+        val sharedPref = this.getSharedPreferences("TOKEN SP",Context.MODE_PRIVATE) ?: return
+        with (sharedPref.edit()) {
+            putString("TOKEN", registration?.token)
+            commit()
+        }
+    }
 }

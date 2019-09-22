@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.admin.models.Registration
 import com.example.admin.repositories.login.LoginRepository
 import com.example.admin.utils.Utils
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -18,6 +19,8 @@ class LoginViewModel(private var loginRepository: LoginRepository) : ViewModel()
 
     val error = ObservableField("")
 
+    val registration = ObservableField<Registration>()
+
     private val compositeDisposable = CompositeDisposable()
 
     fun login(dni: String, password: String) {
@@ -31,6 +34,7 @@ class LoginViewModel(private var loginRepository: LoginRepository) : ViewModel()
                 .subscribe(
                     {
                         Log.d("SUCCESS", "LOG IN RQST SUCCESS")
+                        registration.set(it)
                         logInSuccess.value = true
                     },
                     {
