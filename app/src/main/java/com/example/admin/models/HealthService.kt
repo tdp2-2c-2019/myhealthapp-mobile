@@ -8,5 +8,6 @@ data class HealthService(
     @Expose val lon: Double,
     @Expose val lat: Double,
     @Expose val name: String,
+    @Expose val address: String,
     @Expose @SerializedName("minimum_plan") val minimumPlan: String
 )
