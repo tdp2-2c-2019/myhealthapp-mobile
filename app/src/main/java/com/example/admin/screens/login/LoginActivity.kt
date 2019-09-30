@@ -11,7 +11,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.admin.R
 import com.example.admin.databinding.ActivityLoginBinding
-import com.example.admin.screens.health_services.HealthServicesActivity
+import com.example.admin.screens.forgot_password.ForgotPasswordActivity
+import com.example.admin.screens.home.HomeActivity
 import com.example.admin.screens.sign_in.SignInActivity
 import com.example.admin.utils.Validator
 import dagger.android.support.DaggerAppCompatActivity
@@ -56,7 +57,7 @@ class LoginActivity : DaggerAppCompatActivity() {
 
     private fun initForgetPasswordListener() {
         binding.forgetPasswordBtn.setOnClickListener {
-            showForgetPasswordDialog()
+            startActivity(Intent(this, ForgotPasswordActivity::class.java))
         }
     }
 
@@ -98,7 +99,7 @@ class LoginActivity : DaggerAppCompatActivity() {
     private fun goHome() {
         saveToken()
         Toast.makeText(this, "¡Inicio de sesión exitoso!", Toast.LENGTH_SHORT).show()
-        val intent = Intent(this, HealthServicesActivity::class.java)
+        val intent = Intent(this, HomeActivity::class.java)
         intent.addFlags(FLAG_ACTIVITY_CLEAR_TASK)
         intent.addFlags(FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)

@@ -3,8 +3,11 @@ package com.example.admin.di
 import com.example.admin.repositories.atm.ATMRepository
 import com.example.admin.repositories.health_services.HealthServicesRepository
 import com.example.admin.repositories.login.LoginRepository
+import com.example.admin.screens.forgot_password.ForgotPasswordActivity
+import com.example.admin.screens.health_services.FilterActivity
 import com.example.admin.screens.health_services.HealthServicesActivity
 import com.example.admin.screens.health_services.HealthServicesViewModelFactory
+import com.example.admin.screens.home.HomeActivity
 import com.example.admin.screens.login.LoginActivity
 import com.example.admin.screens.login.LoginViewModelFactory
 import com.example.admin.screens.map.MapsActivity
@@ -57,5 +60,14 @@ internal abstract class ActivitiesModule {
 
     @ContributesAndroidInjector
     internal abstract fun healthServicesActivity(): HealthServicesActivity
+
+    @ContributesAndroidInjector
+    internal abstract fun homeActivity(): HomeActivity
+
+    @ContributesAndroidInjector
+    internal abstract fun forgotPasswordActivity(): ForgotPasswordActivity
+
+    @ContributesAndroidInjector
+    internal abstract fun filterActivity(): FilterActivity
 
 }

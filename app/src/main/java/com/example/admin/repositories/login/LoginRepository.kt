@@ -6,6 +6,6 @@ import io.reactivex.Observable
 
 
 interface LoginRepository {
-    fun signIn(form: SignInForm) : Observable<Registration>
+    fun signIn(form: SignInForm) : Observable<String>
     fun logIn(dni: String, password: String) : Observable<Registration>
 }
