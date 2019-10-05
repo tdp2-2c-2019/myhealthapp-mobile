@@ -4,10 +4,7 @@ import com.example.admin.models.Registration
 import com.example.admin.models.SignInForm
 import io.reactivex.Completable
 import io.reactivex.Observable
-import retrofit2.http.Body
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface LoginService {
 
@@ -23,4 +20,16 @@ interface LoginService {
         @Field("password") password: String
     ): Observable<Registration>
 
+    @FormUrlEncoded
+    @POST("api/users/account/recover")
+    fun sendToken(
+        @Field("mail") mail: String
+    ): Observable<String>
+
+    @FormUrlEncoded
+    @PUT("api/users/password")
+    fun newPassword(
+        @Field("token") token: String,
+        @Field("password") password: String
+    ): Observable<String>
 }

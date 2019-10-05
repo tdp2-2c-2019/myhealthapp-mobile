@@ -17,4 +17,11 @@ class LoginRepositoryImpl(private val remoteDataSource: LoginRemoteRepository) :
         return remoteDataSource.signIn(form)
     }
 
+    override fun sendToken(mail: String): Observable<String> {
+        return remoteDataSource.sendToken(mail)
+    }
+
+    override fun newPassword(token: String, password: String): Observable<String> {
+        return remoteDataSource.newPassword(token, password)
+    }
 }

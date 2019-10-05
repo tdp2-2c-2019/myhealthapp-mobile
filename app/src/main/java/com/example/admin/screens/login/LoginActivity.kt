@@ -2,7 +2,8 @@ package com.example.admin.screens.login
 
 import android.content.Context
 import android.content.Intent
-import android.content.Intent.*
+import android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
+import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -11,7 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.admin.R
 import com.example.admin.databinding.ActivityLoginBinding
-import com.example.admin.screens.forgot_password.ForgotPasswordActivity
+import com.example.admin.screens.forgot_password.EmailActivity
 import com.example.admin.screens.home.HomeActivity
 import com.example.admin.screens.sign_in.SignInActivity
 import com.example.admin.utils.Validator
@@ -57,7 +58,7 @@ class LoginActivity : DaggerAppCompatActivity() {
 
     private fun initForgetPasswordListener() {
         binding.forgetPasswordBtn.setOnClickListener {
-            startActivity(Intent(this, ForgotPasswordActivity::class.java))
+            startActivity(Intent(this, EmailActivity::class.java))
         }
     }
 
@@ -86,13 +87,6 @@ class LoginActivity : DaggerAppCompatActivity() {
         AlertDialog.Builder(this)
             .setTitle(R.string.log_in_error)
             .setMessage(loginViewModel.error.get())
-            .show()
-    }
-
-    private fun showForgetPasswordDialog() {
-        AlertDialog.Builder(this)
-            .setTitle("Proximamente")
-            .setMessage(R.string.forget_password_text)
             .show()
     }
 

@@ -65,6 +65,11 @@
         </activity>
 
         <activity
+            android:name=".screens.forgot_password.EmailActivity"
+            android:label="@string/title_activity_forgot_password">
+        </activity>
+
+        <activity
             android:name=".screens.health_services.FilterActivity"
             android:label="@string/title_activity_filter">
         </activity>

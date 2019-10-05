@@ -18,4 +18,12 @@ class LoginRemoteRepository @Inject constructor(private var loginService: LoginS
         return loginService.logIn(dni, password)
     }
 
+    fun newPassword(token: String, password: String): Observable<String> {
+        return loginService.newPassword(token, password)
+    }
+
+    fun sendToken(mail: String): Observable<String> {
+        return loginService.sendToken(mail)
+    }
+
 }
