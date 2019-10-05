@@ -6,7 +6,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import com.example.admin.R
 import com.example.admin.databinding.ActivityHomeBinding
-import com.example.admin.screens.health_services.FilterActivity
 import com.example.admin.screens.health_services.HealthServicesActivity
 import dagger.android.support.DaggerAppCompatActivity
 
@@ -27,7 +26,7 @@ class HomeActivity : DaggerAppCompatActivity() {
 
     private fun initHealthServicesListener() {
         binding.healthServiceBtn.setOnClickListener {
-            startActivity(Intent(this, FilterActivity::class.java))
+            startActivity(Intent(this, HealthServicesActivity::class.java))
         }
     }
 

@@ -4,7 +4,6 @@ import com.example.admin.repositories.atm.ATMRepository
 import com.example.admin.repositories.health_services.HealthServicesRepository
 import com.example.admin.repositories.login.LoginRepository
 import com.example.admin.screens.forgot_password.*
-import com.example.admin.screens.health_services.FilterActivity
 import com.example.admin.screens.health_services.HealthServicesActivity
 import com.example.admin.screens.health_services.HealthServicesViewModelFactory
 import com.example.admin.screens.home.HomeActivity
@@ -81,8 +80,5 @@ internal abstract class ActivitiesModule {
 
     @ContributesAndroidInjector
     internal abstract fun emailActivity(): EmailActivity
-
-    @ContributesAndroidInjector
-    internal abstract fun filterActivity(): FilterActivity
 
 }

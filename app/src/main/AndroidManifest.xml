@@ -46,7 +46,15 @@
 
         <activity
             android:name=".screens.health_services.HealthServicesActivity"
-            android:label="@string/title_activity_health_services">
+            android:label="@string/title_activity_health_services"
+            android:launchMode="singleTop">
+
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
         </activity>
 
         <activity
@@ -69,10 +77,6 @@
             android:label="@string/title_activity_forgot_password">
         </activity>
 
-        <activity
-            android:name=".screens.health_services.FilterActivity"
-            android:label="@string/title_activity_filter">
-        </activity>
     </application>
 
 </manifest>
