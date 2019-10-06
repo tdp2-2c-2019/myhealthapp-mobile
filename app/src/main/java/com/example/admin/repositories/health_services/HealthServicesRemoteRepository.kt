@@ -9,8 +9,16 @@ import javax.inject.Singleton
 @Singleton
 class HealthServicesRemoteRepository @Inject constructor(private var healthServicesService: HealthServicesService) {
 
-    fun healthServices(token: String): Observable<ArrayList<HealthService>> {
-        return healthServicesService.healthServices(token)
+    fun healthServices(token: String, specialization: String, query: String): Observable<ArrayList<HealthService>> {
+        return healthServicesService.healthServices(token, specialization, query)
+    }
+
+    fun doctors(token: String, specialization: String, query: String): Observable<ArrayList<HealthService>> {
+        return healthServicesService.doctors(token, specialization, query)
+    }
+
+    fun hospitals(token: String, specialization: String, query: String): Observable<ArrayList<HealthService>> {
+        return healthServicesService.hospitals(token, specialization, query)
     }
 
 }

@@ -60,7 +60,7 @@ class EmailActivity : DaggerAppCompatActivity() {
 
     private fun showErrorDialog() {
         AlertDialog.Builder(this)
-            .setTitle(R.string.log_in_error)
+            .setTitle(R.string.email_error)
             .setMessage(emailViewModel.error.get())
             .show()
     }

@@ -12,6 +12,9 @@
     <string name="no_connection_error">No tienes conexión a Internet. Por favor active el Wifi o los datos moviles y vuelva a intentarlo</string>
     <string name="sign_in_error">Error en el registro</string>
     <string name="log_in_error">Error al iniciar sesión</string>
+    <string name="email_error">Error al enviar el mail</string>
+    <string name="password_error">Error al cambiar la contraseña</string>
+    <string name="services_error">Error al obtener los servicios</string>
     <string name="register_link"><u>Si todavía no tenes cuenta, registrate</u></string>
     <string name="forget_password_link"><u>¿Olvidaste tu contraseña?</u></string>
     <string name="forget_password_text">Vas a poder recuperar tu contraseña</string>
@@ -23,4 +26,5 @@
     <string name="filter">Filtrar</string>
     <string name="search_hint">Buscar por nombre</string>
     <string name="cancel">Cancelar</string>
+    <string name="empty_info">No encontramos servicios con estas características, probá cambiando los filtros</string>
 </resources>

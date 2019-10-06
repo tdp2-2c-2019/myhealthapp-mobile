@@ -6,6 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.admin.models.HealthService
 import com.example.admin.repositories.health_services.HealthServicesRepository
+import com.example.admin.utils.Utils
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -16,19 +18,48 @@ class HealthServicesViewModel(private var healthServicesRepository: HealthServic
 
     val healthServices = MutableLiveData<ArrayList<HealthService>>()
 
+    val success = MutableLiveData<Boolean>()
+
+    val error = ObservableField("")
+
     private val compositeDisposable = CompositeDisposable()
 
-    fun fetchHealthServices(token: String) {
+    fun fetchAll(token: String, specialization: String, query: String) {
+        fetchHealthServices(
+            healthServicesRepository.healthServices(token, specialization, query)
+        )
+    }
+
+    fun fetchDoctors(token: String, specialization: String, query: String) {
+        fetchHealthServices(
+            healthServicesRepository.doctors(token, specialization, query)
+        )
+    }
+
+    fun fetchHospitals(token: String, specialization: String, query: String) {
+        fetchHealthServices(
+            healthServicesRepository.hospitals(token, specialization, query)
+        )
+    }
+
+    private fun fetchHealthServices(observable: Observable<ArrayList<HealthService>>) {
         compositeDisposable.add(
-            healthServicesRepository.healthServices(token)
+            observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { isLoading.set(true) }
                 .doOnComplete { isLoading.set(false) }
                 .doOnError { isLoading.set(false) }
                 .subscribe(
-                    { healthServices.value = it },
-                    { Log.d("ERROR", "HEALTH SERVICES RQST ERROR", it) }
+                    {
+                        healthServices.value = arrayListOf()
+                        success.value = true
+                    },
+                    {
+                        Log.d("ERROR", "HEALTH SERVICES RQST ERROR", it)
+                        error.set(Utils.extractError(it))
+                        success.value = false
+                    }
                 )
         )
     }

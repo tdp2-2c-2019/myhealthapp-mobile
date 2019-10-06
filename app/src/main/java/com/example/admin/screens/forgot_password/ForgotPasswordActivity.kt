@@ -62,7 +62,7 @@ class ForgotPasswordActivity : DaggerAppCompatActivity() {
 
     private fun showErrorDialog() {
         AlertDialog.Builder(this)
-            .setTitle(R.string.log_in_error)
+            .setTitle(R.string.password_error)
             .setMessage(forgotPasswordViewModel.error.get())
             .show()
     }

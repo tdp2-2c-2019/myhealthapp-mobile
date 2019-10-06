@@ -8,6 +8,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
@@ -24,6 +26,8 @@ import javax.inject.Inject
 
 class HealthServicesActivity : DaggerAppCompatActivity() {
 
+    lateinit var token: String
+
     lateinit var binding: ActivityHealthServicesBinding
     lateinit var filterBinding: FilterDialogBinding
 
@@ -35,6 +39,10 @@ class HealthServicesActivity : DaggerAppCompatActivity() {
     lateinit var healthServicesViewModelFactory: HealthServicesViewModelFactory
 
     lateinit var healthServicesViewModel: HealthServicesViewModel
+
+    private val DOCTORS = "Pofesionales"
+    private val HOSPITALS = "Sanatorios"
+    private val ALL = "Profesionales y sanatorios"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +70,7 @@ class HealthServicesActivity : DaggerAppCompatActivity() {
         if (Intent.ACTION_SEARCH == intent.action) {
             val query = intent.getStringExtra(SearchManager.QUERY)
             Log.d("QUERY", query)
+            fetchServices(query)
         }
     }
 
@@ -79,9 +88,10 @@ class HealthServicesActivity : DaggerAppCompatActivity() {
         initViewModel()
         createFilterDialog()
         initHealthServicesRV()
-        fetchHealthServices()
         initServicesSpinner()
         initSpecializationSpinner()
+        fetchHealthServices()
+        observeSuccess()
     }
 
     private fun initViewModel() {
@@ -97,39 +107,47 @@ class HealthServicesActivity : DaggerAppCompatActivity() {
         healthServicesViewModel.healthServices.observe(
             this,
             Observer<ArrayList<HealthService>> {
-                it?.let { servicesRVAdapter.replaceData(it) }
+                it?.let {
+                    servicesRVAdapter.replaceData(it)
+                    if(it.isEmpty()) {
+                        binding.emptyView.visibility = VISIBLE
+                        binding.servicesRv.visibility = GONE
+                    } else {
+                        binding.emptyView.visibility = GONE
+                        binding.servicesRv.visibility = VISIBLE
+                    }
+                }
             }
         )
     }
 
     private fun initServicesSpinner() {
-        val services = arrayListOf("Profesionales y sanatorios", "Profesionales", "Sanatorios")
+        val services = arrayListOf(ALL, DOCTORS, HOSPITALS)
         filterBinding.serviceSpinner.adapter =
             ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, services)
     }
 
     private fun initSpecializationSpinner() {
-        val specialities = arrayListOf("Pediatría", "Traumatología", "Cardiología", "Kinesiología")
+        val specialities = arrayListOf("", "Cardiologia", "Clinica", "Dermatologia", "Odontologia")
         filterBinding.specialitySpinner.adapter =
             ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, specialities)
     }
 
     private fun fetchHealthServices() {
         val sharedPref = this.getSharedPreferences("TOKEN SP", Context.MODE_PRIVATE) ?: return
-        val token = sharedPref.getString("TOKEN", "")
-        token?.let {
-            healthServicesViewModel.fetchHealthServices(it)
-        }
+        token = sharedPref.getString("TOKEN", "")
+        fetchAllServices("")
     }
 
     private fun createFilterDialog() {
         filterDialog = AlertDialog.Builder(this)
             .setTitle("Filtros")
             .setView(filterBinding.root)
-            .setPositiveButton(R.string.filter) { dialog, id ->
-                // filter...
+            .setPositiveButton(R.string.filter) { dialog, _ ->
+                fetchServices("")
+                dialog.cancel()
             }
-            .setNegativeButton(R.string.cancel) { dialog, id ->
+            .setNegativeButton(R.string.cancel) { dialog, _ ->
                 dialog.cancel()
             }
             .create()
@@ -137,6 +155,52 @@ class HealthServicesActivity : DaggerAppCompatActivity() {
 
     private fun showFilterDialog() {
         filterDialog.show()
+    }
+
+    private fun fetchServices(query: String) {
+        when(filterBinding.serviceSpinner.selectedItem) {
+            ALL -> { fetchAllServices(query) }
+            DOCTORS -> { fetchDoctors(query) }
+            HOSPITALS -> { fetchHospitals(query) }
+            else -> { fetchAllServices(query) }
+        }
+    }
+
+    private fun fetchAllServices(query: String) {
+        val specialization = filterBinding.specialitySpinner.selectedItem.toString()
+        token.let {
+            healthServicesViewModel.fetchAll(it, specialization, query)
+        }
+    }
+
+    private fun fetchDoctors(query: String) {
+        val specialization = filterBinding.specialitySpinner.selectedItem.toString()
+        token.let {
+            healthServicesViewModel.fetchDoctors(it, specialization, query)
+        }
+    }
+
+    private fun fetchHospitals(query: String) {
+        val specialization = filterBinding.specialitySpinner.selectedItem.toString()
+        token.let {
+            healthServicesViewModel.fetchHospitals(it, specialization, query)
+        }
+    }
+
+    private fun observeSuccess() {
+        healthServicesViewModel.success.observe(
+            this,
+            Observer<Boolean> {
+                if (!it) showErrorDialog()
+            }
+        )
+    }
+
+    private fun showErrorDialog() {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.services_error)
+            .setMessage(healthServicesViewModel.error.get())
+            .show()
     }
 
 }
