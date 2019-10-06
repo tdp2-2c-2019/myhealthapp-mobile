@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.admin.R
 import com.example.admin.databinding.ActivityForgotPasswordBinding
 import com.example.admin.screens.login.LoginActivity
+import com.example.admin.utils.Validator
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
@@ -43,10 +44,12 @@ class ForgotPasswordActivity : DaggerAppCompatActivity() {
 
     private fun initConfirmListener() {
         binding.confirmBtn.setOnClickListener {
-            forgotPasswordViewModel.newPassword(
-                binding.tokenInput.text.toString(),
-                binding.passwordInput.text.toString()
-            )
+            if (Validator.passwordValidator(binding)) {
+                forgotPasswordViewModel.newPassword(
+                    binding.tokenInput.text.toString(),
+                    binding.passwordInput.text.toString()
+                )
+            }
         }
     }
 

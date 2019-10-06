@@ -1,6 +1,8 @@
 package com.example.admin.utils
 
 import android.util.Patterns
+import com.example.admin.databinding.ActivityEmailBinding
+import com.example.admin.databinding.ActivityForgotPasswordBinding
 import com.example.admin.databinding.ActivityLoginBinding
 import com.example.admin.databinding.ActivitySignInBinding
 
@@ -76,6 +78,58 @@ class Validator {
             }
             if (binding.passwordInput.text.isEmpty()) {
                 binding.passwordError.text = emptyError
+                valid = false
+            }
+
+            return valid
+        }
+
+        fun emailValidator(binding: ActivityEmailBinding): Boolean {
+            var valid = true
+
+            binding.mailError.text = ""
+
+            if (!Patterns.EMAIL_ADDRESS.matcher(binding.mailInput.text).matches()) {
+                binding.mailError.text = "El formato de mail es incorrecto"
+                valid = false
+            }
+
+            if (binding.mailInput.text.isEmpty()) {
+                binding.mailError.text = emptyError
+                valid = false
+            }
+
+            return valid
+        }
+
+        fun passwordValidator(binding: ActivityForgotPasswordBinding): Boolean {
+            var valid = true
+
+            binding.tokenError.text = ""
+            binding.passwordError.text = ""
+            binding.repeatPasswordError.text = ""
+
+            if (binding.passwordInput.text.length < 8) {
+                binding.passwordError.text = "La contraseña no puede ser menor a 8 dígitos"
+                valid = false
+            }
+
+            if (binding.passwordInput.text.toString() != binding.repeatPasswordInput.text.toString()) {
+                binding.repeatPasswordError.text = "Las contraseñas no coinciden"
+                valid = false
+            }
+
+            if (binding.tokenInput.text.isEmpty()) {
+                binding.tokenError.text = emptyError
+                valid = false
+            }
+
+            if (binding.passwordInput.text.isEmpty()) {
+                binding.passwordError.text = emptyError
+                valid = false
+            }
+            if (binding.repeatPasswordInput.text.isEmpty()) {
+                binding.repeatPasswordError.text = emptyError
                 valid = false
             }
 

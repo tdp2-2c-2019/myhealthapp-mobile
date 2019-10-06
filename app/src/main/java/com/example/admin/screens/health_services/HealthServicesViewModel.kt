@@ -52,7 +52,7 @@ class HealthServicesViewModel(private var healthServicesRepository: HealthServic
                 .doOnError { isLoading.set(false) }
                 .subscribe(
                     {
-                        healthServices.value = arrayListOf()
+                        healthServices.value = it
                         success.value = true
                     },
                     {

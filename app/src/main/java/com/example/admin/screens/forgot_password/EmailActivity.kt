@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.admin.R
 import com.example.admin.databinding.ActivityEmailBinding
+import com.example.admin.utils.Validator
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
@@ -42,9 +43,11 @@ class EmailActivity : DaggerAppCompatActivity() {
 
     private fun initConfirmListener() {
         binding.confirmBtn.setOnClickListener {
-            emailViewModel.sendToken(
-                binding.mailInput.text.toString()
-            )
+            if (Validator.emailValidator(binding)) {
+                emailViewModel.sendToken(
+                    binding.mailInput.text.toString()
+                )
+            }
         }
     }
 
