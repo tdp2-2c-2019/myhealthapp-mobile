@@ -1,12 +1,18 @@
 package com.example.admin.screens.health_services
 
+import android.location.Location
 import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.admin.models.HealthService
 import com.example.admin.repositories.health_services.HealthServicesRepository
+import com.example.admin.utils.CustomInfoMarker
 import com.example.admin.utils.Utils
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -71,4 +77,34 @@ class HealthServicesViewModel(private var healthServicesRepository: HealthServic
         }
     }
 
+    // MAP
+    private lateinit var mMap: GoogleMap
+
+    private lateinit var lastKnownLocation: Location
+
+    fun onMapReady(googleMap: GoogleMap, customInfoWindow: CustomInfoMarker) {
+        mMap = googleMap
+        mMap.isMyLocationEnabled = true
+        mMap.uiSettings.isMyLocationButtonEnabled = true
+        mMap.setInfoWindowAdapter(customInfoWindow)
+
+        lastKnownLocation.let {
+            val location = LatLng(it.latitude, it.longitude)
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15.0f))
+            isLoading.set(false)
+        }
+    }
+
+    fun setLastKnownLocation(location: Location) {
+        lastKnownLocation = location
+    }
+
+    fun setMarkers(services: ArrayList<HealthService>) {
+        mMap.clear()
+        services.forEach {
+            val location = LatLng(it.lat, it.lon)
+            val marker = mMap.addMarker(MarkerOptions().position(location))
+            marker.tag = it
+        }
+    }
 }

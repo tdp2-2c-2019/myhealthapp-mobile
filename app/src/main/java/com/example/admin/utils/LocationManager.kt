@@ -6,10 +6,11 @@ import android.content.pm.PackageManager
 import android.location.Location
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.admin.screens.health_services.HealthServicesActivity
 import com.example.admin.screens.map.MapsActivity
 import com.google.android.gms.location.LocationServices
 
-class LocationManager(private val activity: MapsActivity) {
+class LocationManager(private val activity: HealthServicesActivity) {
 
     private val MY_PERMISSIONS_REQUEST_FINE_LOCATION = 1234
 
@@ -39,7 +40,7 @@ class LocationManager(private val activity: MapsActivity) {
                 if(location === null) loadDefaultLocation()
                 else
                     location.let {
-                        activity.mapViewModel.setLastKnownLocation(it)
+                        activity.healthServicesViewModel.setLastKnownLocation(it)
                         activity.initMap()
                     }
             }

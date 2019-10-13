@@ -8,8 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View.GONE
-import android.view.View.VISIBLE
+import android.view.View.*
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
@@ -21,10 +20,15 @@ import com.example.admin.R
 import com.example.admin.databinding.ActivityHealthServicesBinding
 import com.example.admin.databinding.FilterDialogBinding
 import com.example.admin.models.HealthService
+import com.example.admin.utils.CustomInfoMarker
+import com.example.admin.utils.LocationManager
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
-class HealthServicesActivity : DaggerAppCompatActivity() {
+class HealthServicesActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
 
     lateinit var token: String
 
@@ -39,6 +43,8 @@ class HealthServicesActivity : DaggerAppCompatActivity() {
     lateinit var healthServicesViewModelFactory: HealthServicesViewModelFactory
 
     lateinit var healthServicesViewModel: HealthServicesViewModel
+
+    private val locationManager = LocationManager(this)
 
     private val DOCTORS = "Pofesionales"
     private val HOSPITALS = "Sanatorios"
@@ -86,6 +92,8 @@ class HealthServicesActivity : DaggerAppCompatActivity() {
 
     private fun init() {
         initViewModel()
+        locationManager.checkLocationPermission()
+        initFab()
         createFilterDialog()
         initHealthServicesRV()
         initServicesSpinner()
@@ -109,6 +117,7 @@ class HealthServicesActivity : DaggerAppCompatActivity() {
             Observer<ArrayList<HealthService>> {
                 it?.let {
                     servicesRVAdapter.replaceData(it)
+                    healthServicesViewModel.setMarkers(it)
                     if(it.isEmpty()) {
                         binding.emptyView.visibility = VISIBLE
                         binding.servicesRv.visibility = GONE
@@ -203,4 +212,39 @@ class HealthServicesActivity : DaggerAppCompatActivity() {
             .show()
     }
 
+    // MAP
+    fun initMap() {
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        val customInfoWindow = CustomInfoMarker(this)
+        healthServicesViewModel.onMapReady(googleMap, customInfoWindow)
+    }
+
+    private fun initFab() {
+        binding.fab.setOnClickListener {
+//            binding.servicesRv.visibility =
+//                if (binding.servicesRv.visibility == VISIBLE) INVISIBLE else VISIBLE
+            binding.mapLayout.visibility =
+                if (binding.mapLayout.visibility == VISIBLE) INVISIBLE else VISIBLE
+
+            if (binding.mapLayout.visibility == VISIBLE)
+                binding.fab.setImageResource(R.drawable.list)
+            else
+                binding.fab.setImageResource(R.drawable.map)
+        }
+    }
+
+    fun showLocationDialog() {
+        AlertDialog.Builder(this)
+            .setMessage(R.string.location_error)
+            .setPositiveButton("Reintentar") { _, _ -> locationManager.checkLocationPermission()}
+            .show()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        locationManager.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
 }

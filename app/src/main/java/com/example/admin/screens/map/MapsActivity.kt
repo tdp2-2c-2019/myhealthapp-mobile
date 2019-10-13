@@ -31,7 +31,7 @@ class MapsActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
 
     lateinit var mapViewModel: MapViewModel
 
-    private val locationManager = LocationManager(this)
+//    private val locationManager = LocationManager(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +50,7 @@ class MapsActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
     private fun init() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_maps)
         initViewModel()
-        locationManager.checkLocationPermission()
+//        locationManager.checkLocationPermission()
         observeATMs()
     }
 
@@ -150,13 +150,14 @@ class MapsActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
                 .show()
     }
 
+    /*
     fun showLocationDialog() {
         AlertDialog.Builder(this)
             .setMessage(R.string.location_error)
             .setPositiveButton("Reintentar") { _, _ -> locationManager.checkLocationPermission()}
             .show()
     }
-
+*/
     private fun showNetworkDialog() {
         AlertDialog.Builder(this)
             .setMessage(R.string.connection_lost)
@@ -184,8 +185,10 @@ class MapsActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
         val customInfoWindow = CustomInfoMarker(this)
         mapViewModel.onMapReady(googleMap, customInfoWindow)
     }
-
+/*
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         locationManager.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
+
+ */
 }
