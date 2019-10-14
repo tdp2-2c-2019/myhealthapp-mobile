@@ -82,11 +82,12 @@ class HealthServicesViewModel(private var healthServicesRepository: HealthServic
 
     private lateinit var lastKnownLocation: Location
 
-    fun onMapReady(googleMap: GoogleMap, customInfoWindow: CustomInfoMarker) {
+    fun onMapReady(googleMap: GoogleMap, customInfoWindow: CustomInfoMarker, listener: GoogleMap.OnInfoWindowClickListener) {
         mMap = googleMap
         mMap.isMyLocationEnabled = true
         mMap.uiSettings.isMyLocationButtonEnabled = true
         mMap.setInfoWindowAdapter(customInfoWindow)
+        mMap.setOnInfoWindowClickListener(listener)
 
         lastKnownLocation.let {
             val location = LatLng(it.latitude, it.longitude)

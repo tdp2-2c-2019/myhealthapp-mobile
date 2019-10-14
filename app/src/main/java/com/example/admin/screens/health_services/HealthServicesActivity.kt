@@ -26,10 +26,13 @@ import com.example.admin.utils.LocationManager
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.Marker
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
-class HealthServicesActivity : DaggerAppCompatActivity(), OnMapReadyCallback{
+class HealthServicesActivity : DaggerAppCompatActivity(), OnMapReadyCallback,
+    GoogleMap.OnInfoWindowClickListener {
+
     lateinit var token: String
 
     lateinit var binding: ActivityHealthServicesBinding
@@ -220,7 +223,12 @@ class HealthServicesActivity : DaggerAppCompatActivity(), OnMapReadyCallback{
 
     override fun onMapReady(googleMap: GoogleMap) {
         val customInfoWindow = CustomInfoMarker(this)
-        healthServicesViewModel.onMapReady(googleMap, customInfoWindow)
+        healthServicesViewModel.onMapReady(googleMap, customInfoWindow, this)
+    }
+
+    override fun onInfoWindowClick(marker: Marker?) {
+        val id = (marker?.tag as HealthService).id
+        goToDetail(id)
     }
 
     private fun initFab() {

@@ -182,8 +182,8 @@ class MapsActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
      * installed Google Play services and returned to the app.
      */
     override fun onMapReady(googleMap: GoogleMap) {
-        val customInfoWindow = CustomInfoMarker(this)
-        mapViewModel.onMapReady(googleMap, customInfoWindow)
+//        val customInfoWindow = CustomInfoMarker(this)
+//        mapViewModel.onMapReady(googleMap, customInfoWindow)
     }
 /*
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
