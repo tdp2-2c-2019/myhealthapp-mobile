@@ -11,6 +11,8 @@ import com.example.admin.screens.login.LoginActivity
 import com.example.admin.screens.login.LoginViewModelFactory
 import com.example.admin.screens.map.MapsActivity
 import com.example.admin.screens.map.MapViewModelFactory
+import com.example.admin.screens.service_detail.ServiceDetailActivity
+import com.example.admin.screens.service_detail.ServiceDetailViewModelFactory
 import com.example.admin.screens.sign_in.SignInActivity
 import com.example.admin.screens.sign_in.SignInViewModelFactory
 import dagger.Module
@@ -58,6 +60,12 @@ internal abstract class ActivitiesModule {
         internal fun providesHealthServicesViewModelFactory(healthServicesRepository: HealthServicesRepository) : HealthServicesViewModelFactory {
             return HealthServicesViewModelFactory(healthServicesRepository)
         }
+
+        @JvmStatic
+        @Provides
+        internal fun providesServiceDetailViewModelFactory(healthServicesRepository: HealthServicesRepository) : ServiceDetailViewModelFactory {
+            return ServiceDetailViewModelFactory(healthServicesRepository)
+        }
     }
 
     @ContributesAndroidInjector
@@ -80,5 +88,8 @@ internal abstract class ActivitiesModule {
 
     @ContributesAndroidInjector
     internal abstract fun emailActivity(): EmailActivity
+
+    @ContributesAndroidInjector
+    internal abstract fun serviceDetailActivity(): ServiceDetailActivity
 
 }

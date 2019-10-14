@@ -27,4 +27,11 @@ class HealthServicesRepositoryImpl(private val remoteDataSource: HealthServicesR
         return remoteDataSource.hospitals(token, specialization, query)
     }
 
+    override fun hospitalDetail(id: Int): Observable<HealthService> {
+        return remoteDataSource.hospitalDetail(id)
+    }
+
+    override fun doctorDetail(id: Int): Observable<HealthService> {
+        return remoteDataSource.doctorDetail(id)
+    }
 }

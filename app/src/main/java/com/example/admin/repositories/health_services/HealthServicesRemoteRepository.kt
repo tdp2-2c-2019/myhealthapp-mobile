@@ -21,4 +21,12 @@ class HealthServicesRemoteRepository @Inject constructor(private var healthServi
         return healthServicesService.hospitals(token, specialization, query)
     }
 
+    fun hospitalDetail(id: Int): Observable<HealthService> {
+        return healthServicesService.hospitalDetail(id)
+    }
+
+    fun doctorDetail(id: Int): Observable<HealthService> {
+        return healthServicesService.doctorDetail(id)
+    }
+
 }

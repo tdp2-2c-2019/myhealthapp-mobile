@@ -8,13 +8,14 @@ import com.example.admin.models.HealthService
 import java.util.*
 
 class ServicesRVAdapter(
-    private var items: ArrayList<HealthService>
+    private var items: ArrayList<HealthService>,
+    private var activity: HealthServicesActivity
 ) : RecyclerView.Adapter<ServicesRVAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = HealthServiceItemBinding.inflate(layoutInflater, parent, false)
-        return ViewHolder(binding)
+        return ViewHolder(binding, activity)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(items[position])
@@ -26,10 +27,11 @@ class ServicesRVAdapter(
         notifyDataSetChanged()
     }
 
-    class ViewHolder(private var binding: HealthServiceItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(private var binding: HealthServiceItemBinding, private val activity: HealthServicesActivity) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(service: HealthService) {
             binding.service = service
+            binding.card.setOnClickListener { activity.goToDetail(service.id) }
             binding.executePendingBindings()
         }
     }

@@ -77,6 +77,11 @@
             android:label="@string/title_activity_forgot_password">
         </activity>
 
+        <activity
+            android:name=".screens.service_detail.ServiceDetailActivity"
+            android:label="@string/title_activity_service_detail">
+        </activity>
+
     </application>
 
 </manifest>

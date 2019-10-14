@@ -3,6 +3,7 @@
     <string name="title_activity_sign_in">Registro</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_forgot_password">Recuperar contraseña</string>
+    <string name="title_activity_service_detail">Detalle de servicio</string>
     <string name="title_activity_filter">Seleccioná lo que buscas</string>
     <string name="title_activity_health_services">Servicios de salud</string>
     <string name="empty_max_range">No existen resultados. Por favor muevase por la ciudad y vuelva a intentarlo</string>
@@ -15,6 +16,7 @@
     <string name="email_error">Error al enviar el mail</string>
     <string name="password_error">Error al cambiar la contraseña</string>
     <string name="services_error">Error al obtener los servicios</string>
+    <string name="detail_error">Error al obtener el detalle del servicio</string>
     <string name="register_link"><u>Si todavía no tenes cuenta, registrate</u></string>
     <string name="forget_password_link"><u>¿Olvidaste tu contraseña?</u></string>
     <string name="forget_password_text">Vas a poder recuperar tu contraseña</string>

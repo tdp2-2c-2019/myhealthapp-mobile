@@ -20,6 +20,7 @@ import com.example.admin.R
 import com.example.admin.databinding.ActivityHealthServicesBinding
 import com.example.admin.databinding.FilterDialogBinding
 import com.example.admin.models.HealthService
+import com.example.admin.screens.service_detail.ServiceDetailActivity
 import com.example.admin.utils.CustomInfoMarker
 import com.example.admin.utils.LocationManager
 import com.google.android.gms.maps.GoogleMap
@@ -28,14 +29,13 @@ import com.google.android.gms.maps.SupportMapFragment
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
-class HealthServicesActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
-
+class HealthServicesActivity : DaggerAppCompatActivity(), OnMapReadyCallback{
     lateinit var token: String
 
     lateinit var binding: ActivityHealthServicesBinding
     lateinit var filterBinding: FilterDialogBinding
 
-    private val servicesRVAdapter = ServicesRVAdapter(arrayListOf())
+    private val servicesRVAdapter = ServicesRVAdapter(arrayListOf(), this)
 
     lateinit var filterDialog: AlertDialog
 
@@ -246,5 +246,11 @@ class HealthServicesActivity : DaggerAppCompatActivity(), OnMapReadyCallback {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         locationManager.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    fun goToDetail(id: Int) {
+        val intent = Intent(this, ServiceDetailActivity::class.java)
+        intent.putExtra("ID", id)
+        startActivity(intent)
     }
 }

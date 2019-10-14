@@ -4,6 +4,7 @@ import com.example.admin.models.HealthService
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Path
 import retrofit2.http.Query
 import java.util.ArrayList
 
@@ -29,5 +30,15 @@ interface HealthServicesService {
         @Query("specialization") specialization: String,
         @Query("name") query: String
     ): Observable<ArrayList<HealthService>>
+
+    @GET("api/health-services/hospitals/{id}")
+    fun hospitalDetail(
+        @Path("id") id: Int
+    ): Observable<HealthService>
+
+    @GET("api/health-services/doctors/{id}")
+    fun doctorDetail(
+        @Path("id") id: Int
+    ): Observable<HealthService>
 
 }
