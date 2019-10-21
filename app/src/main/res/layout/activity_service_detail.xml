@@ -52,7 +52,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
-            android:text="@{viewModel.service.address}"
+            android:text="@{viewModel.service.zone}"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintLeft_toRightOf="@id/zone_label"
@@ -207,6 +207,20 @@
             app:layout_constraintTop_toBottomOf="@id/service_plan" />
 
         <TextView
+            android:id="@+id/service_languages"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:text="Español"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@id/languages_label"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/service_plan" />
+
+        <TextView
             android:id="@+id/specializations_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -216,6 +230,20 @@
             android:text="Especialidades:"
             android:textSize="18sp"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/languages_label" />
+
+        <TextView
+            android:id="@+id/service_specializations"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:text="Cardiologia, Pediatria, Traumatologia"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@id/specializations_label"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/languages_label" />
 
         <ProgressBar
