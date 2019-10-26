@@ -79,7 +79,13 @@
 
         <activity
             android:name=".screens.service_detail.ServiceDetailActivity"
+            android:theme="@style/ServiceTheme"
             android:label="@string/title_activity_service_detail">
+        </activity>
+
+        <activity
+            android:name=".screens.authorizations.AuthorizationsActivity"
+            android:label="@string/title_activity_authorizations">
         </activity>
 
     </application>

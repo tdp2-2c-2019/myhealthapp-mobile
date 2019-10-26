@@ -3,6 +3,8 @@ package com.example.admin.di
 import com.example.admin.repositories.atm.ATMRepository
 import com.example.admin.repositories.health_services.HealthServicesRepository
 import com.example.admin.repositories.login.LoginRepository
+import com.example.admin.screens.authorizations.AuthorizationsActivity
+import com.example.admin.screens.authorizations.AuthorizationsViewModelFactory
 import com.example.admin.screens.forgot_password.*
 import com.example.admin.screens.health_services.HealthServicesActivity
 import com.example.admin.screens.health_services.HealthServicesViewModelFactory
@@ -66,6 +68,12 @@ internal abstract class ActivitiesModule {
         internal fun providesServiceDetailViewModelFactory(healthServicesRepository: HealthServicesRepository) : ServiceDetailViewModelFactory {
             return ServiceDetailViewModelFactory(healthServicesRepository)
         }
+
+        @JvmStatic
+        @Provides
+        internal fun providesAuthorizationsViewModelFactory(healthServicesRepository: HealthServicesRepository) : AuthorizationsViewModelFactory {
+            return AuthorizationsViewModelFactory(healthServicesRepository)
+        }
     }
 
     @ContributesAndroidInjector
@@ -91,5 +99,8 @@ internal abstract class ActivitiesModule {
 
     @ContributesAndroidInjector
     internal abstract fun serviceDetailActivity(): ServiceDetailActivity
+
+    @ContributesAndroidInjector
+    internal abstract fun authorizationsActivity(): AuthorizationsActivity
 
 }

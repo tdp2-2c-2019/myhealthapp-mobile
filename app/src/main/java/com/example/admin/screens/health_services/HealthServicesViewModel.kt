@@ -30,21 +30,21 @@ class HealthServicesViewModel(private var healthServicesRepository: HealthServic
 
     private val compositeDisposable = CompositeDisposable()
 
-    fun fetchAll(token: String, specialization: String, query: String) {
+    fun fetchAll(token: String, specialization: String, query: String, distance: String) {
         fetchHealthServices(
-            healthServicesRepository.healthServices(token, specialization, query)
+            healthServicesRepository.healthServices(token, specialization, query, distance, lastKnownLocation.latitude, lastKnownLocation.longitude)
         )
     }
 
-    fun fetchDoctors(token: String, specialization: String, query: String) {
+    fun fetchDoctors(token: String, specialization: String, query: String, distance: String) {
         fetchHealthServices(
-            healthServicesRepository.doctors(token, specialization, query)
+            healthServicesRepository.doctors(token, specialization, query, distance, lastKnownLocation.latitude, lastKnownLocation.longitude)
         )
     }
 
-    fun fetchHospitals(token: String, specialization: String, query: String) {
+    fun fetchHospitals(token: String, specialization: String, query: String, distance: String) {
         fetchHealthServices(
-            healthServicesRepository.hospitals(token, specialization, query)
+            healthServicesRepository.hospitals(token, specialization, query, distance, lastKnownLocation.latitude, lastKnownLocation.longitude)
         )
     }
 

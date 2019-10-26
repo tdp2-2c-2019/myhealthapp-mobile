@@ -1,5 +1,6 @@
 package com.example.admin.repositories.health_services
 
+import com.example.admin.models.Authorization
 import com.example.admin.models.HealthService
 import io.reactivex.Observable
 import retrofit2.http.GET
@@ -40,5 +41,10 @@ interface HealthServicesService {
     fun doctorDetail(
         @Path("id") id: Int
     ): Observable<HealthService>
+
+    @GET("api/authorizations")
+    fun authorizations(
+        @Header("Authorization") authorization: String
+    ): Observable<ArrayList<Authorization>>
 
 }

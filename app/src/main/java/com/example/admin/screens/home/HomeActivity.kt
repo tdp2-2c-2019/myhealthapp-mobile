@@ -6,6 +6,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import com.example.admin.R
 import com.example.admin.databinding.ActivityHomeBinding
+import com.example.admin.screens.authorizations.AuthorizationsActivity
 import com.example.admin.screens.health_services.HealthServicesActivity
 import dagger.android.support.DaggerAppCompatActivity
 
@@ -32,7 +33,7 @@ class HomeActivity : DaggerAppCompatActivity() {
 
     private fun initAuthorizationsListener() {
         binding.authorizationsBtn.setOnClickListener {
-            showAuthorizationsDialog()
+            startActivity(Intent(this, AuthorizationsActivity::class.java))
         }
     }
 

@@ -100,6 +100,7 @@ class HealthServicesActivity : DaggerAppCompatActivity(), OnMapReadyCallback,
         createFilterDialog()
         initHealthServicesRV()
         initServicesSpinner()
+        initDistanceSpinner()
         initSpecializationSpinner()
         fetchHealthServices()
         observeSuccess()
@@ -137,6 +138,12 @@ class HealthServicesActivity : DaggerAppCompatActivity(), OnMapReadyCallback,
         val services = arrayListOf(ALL, DOCTORS, HOSPITALS)
         filterBinding.serviceSpinner.adapter =
             ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, services)
+    }
+
+    private fun initDistanceSpinner() {
+        val distances = arrayListOf("", "1", "2", "3", "4", "5")
+        filterBinding.distanceSpinner.adapter =
+            ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, distances)
     }
 
     private fun initSpecializationSpinner() {
@@ -180,22 +187,25 @@ class HealthServicesActivity : DaggerAppCompatActivity(), OnMapReadyCallback,
 
     private fun fetchAllServices(query: String) {
         val specialization = filterBinding.specialitySpinner.selectedItem.toString()
+        val distance = filterBinding.specialitySpinner.selectedItem.toString()
         token.let {
-            healthServicesViewModel.fetchAll(it, specialization, query)
+            healthServicesViewModel.fetchAll(it, specialization, query, distance)
         }
     }
 
     private fun fetchDoctors(query: String) {
         val specialization = filterBinding.specialitySpinner.selectedItem.toString()
+        val distance = filterBinding.specialitySpinner.selectedItem.toString()
         token.let {
-            healthServicesViewModel.fetchDoctors(it, specialization, query)
+            healthServicesViewModel.fetchDoctors(it, specialization, query, distance)
         }
     }
 
     private fun fetchHospitals(query: String) {
         val specialization = filterBinding.specialitySpinner.selectedItem.toString()
+        val distance = filterBinding.specialitySpinner.selectedItem.toString()
         token.let {
-            healthServicesViewModel.fetchHospitals(it, specialization, query)
+            healthServicesViewModel.fetchHospitals(it, specialization, query, distance)
         }
     }
 
