@@ -31,7 +31,7 @@ class ServicesRVAdapter(
 
         fun bind(service: HealthService) {
             binding.service = service
-            binding.card.setOnClickListener { activity.goToDetail(service.id) }
+            binding.card.setOnClickListener { activity.goToDetail(service.id, service.healthCenter) }
             binding.executePendingBindings()
         }
     }

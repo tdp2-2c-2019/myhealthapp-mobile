@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.example.admin.models.HealthService
 import com.example.admin.repositories.health_services.HealthServicesRepository
 import com.example.admin.utils.Utils
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -24,9 +25,17 @@ class ServiceDetailViewModel(private var servicesRepository: HealthServicesRepos
 
     private val compositeDisposable = CompositeDisposable()
 
-    fun fetchDetail(id: Int) {
+    fun fetchHospitalDetail(id: Int) {
+        fetchDetail(servicesRepository.hospitalDetail(id))
+    }
+
+    fun fetchDoctorDetail(id: Int) {
+        fetchDetail(servicesRepository.doctorDetail(id))
+    }
+
+    fun fetchDetail(observable: Observable<HealthService>) {
         compositeDisposable.add(
-            servicesRepository.hospitalDetail(id)
+            observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { isLoading.set(true) }

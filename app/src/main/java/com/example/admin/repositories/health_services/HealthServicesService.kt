@@ -15,21 +15,31 @@ interface HealthServicesService {
     fun healthServices(
         @Header("Authorization") authorization: String,
         @Query("specialization") specialization: String,
-        @Query("name") query: String
+        @Query("name") query: String,
+        @Query("distance") distance: Double,
+        @Query("originLat") lat: Double,
+        @Query("originLon") long: Double
     ): Observable<ArrayList<HealthService>>
 
     @GET("api/health-services/doctors")
     fun doctors(
         @Header("Authorization") authorization: String,
         @Query("specialization") specialization: String,
-        @Query("name") query: String
+        @Query("name") query: String,
+        @Query("distance") distance: Double,
+        @Query("originLat") lat: Double,
+        @Query("originLon") long: Double
+
     ): Observable<ArrayList<HealthService>>
 
     @GET("api/health-services/hospitals")
     fun hospitals(
         @Header("Authorization") authorization: String,
         @Query("specialization") specialization: String,
-        @Query("name") query: String
+        @Query("name") query: String,
+        @Query("distance") distance: Double,
+        @Query("originLat") lat: Double,
+        @Query("originLon") long: Double
     ): Observable<ArrayList<HealthService>>
 
     @GET("api/health-services/hospitals/{id}")

@@ -13,7 +13,7 @@ class HealthServicesRepositoryImpl(private val remoteDataSource: HealthServicesR
         token: String,
         specialization: String,
         query: String,
-        distance: String,
+        distance: Double,
         lat: Double, long: Double
     ): Observable<ArrayList<HealthService>> {
         return remoteDataSource.healthServices(token, specialization, query, distance, lat, long)
@@ -23,7 +23,7 @@ class HealthServicesRepositoryImpl(private val remoteDataSource: HealthServicesR
         token: String,
         specialization: String,
         query: String,
-        distance: String,
+        distance: Double,
         lat: Double, long: Double
     ): Observable<ArrayList<HealthService>> {
         return remoteDataSource.doctors(token, specialization, query, distance, lat, long)
@@ -33,7 +33,7 @@ class HealthServicesRepositoryImpl(private val remoteDataSource: HealthServicesR
         token: String,
         specialization: String,
         query: String,
-        distance: String,
+        distance: Double,
         lat: Double, long: Double
     ): Observable<ArrayList<HealthService>> {
         return remoteDataSource.hospitals(token, specialization, query, distance, lat, long)

@@ -42,6 +42,7 @@ class LocationManager(private val activity: HealthServicesActivity) {
                     location.let {
                         activity.healthServicesViewModel.setLastKnownLocation(it)
                         activity.initMap()
+                        activity.fetchHealthServices()
                     }
             }
 

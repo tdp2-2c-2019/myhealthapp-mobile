@@ -7,7 +7,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.admin.R
 import com.example.admin.databinding.ActivityServiceDetailBinding
-import com.example.admin.models.HealthService
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
@@ -34,7 +33,13 @@ class ServiceDetailActivity : DaggerAppCompatActivity() {
 
     private fun fetchDetail() {
         val id = intent.getIntExtra("ID", 0)
-        serviceDetailViewModel.fetchDetail(id)
+        val healthCenter = intent.getBooleanExtra("HEALTH_CENTER", true)
+
+        if(healthCenter) {
+            serviceDetailViewModel.fetchHospitalDetail(id)
+        } else {
+            serviceDetailViewModel.fetchDoctorDetail(id)
+        }
     }
 
     private fun initViewModel() {

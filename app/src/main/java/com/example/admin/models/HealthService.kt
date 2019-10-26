@@ -16,7 +16,8 @@ data class HealthService(
     @Expose val mail: String,
     @Expose val specializations: ArrayList<String>,
     @Expose val languages: ArrayList<String>,
-    @Expose @SerializedName("minimum_plan") val minimumPlan: String
+    @Expose @SerializedName("minimum_plan") val minimumPlan: String,
+    @Expose @SerializedName("health_center") val healthCenter: Boolean
 )
 
 @BindingAdapter("bindArray")

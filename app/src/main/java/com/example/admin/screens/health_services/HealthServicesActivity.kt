@@ -102,7 +102,6 @@ class HealthServicesActivity : DaggerAppCompatActivity(), OnMapReadyCallback,
         initServicesSpinner()
         initDistanceSpinner()
         initSpecializationSpinner()
-        fetchHealthServices()
         observeSuccess()
     }
 
@@ -152,7 +151,7 @@ class HealthServicesActivity : DaggerAppCompatActivity(), OnMapReadyCallback,
             ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, specialities)
     }
 
-    private fun fetchHealthServices() {
+    fun fetchHealthServices() {
         val sharedPref = this.getSharedPreferences("TOKEN SP", Context.MODE_PRIVATE) ?: return
         token = sharedPref.getString("TOKEN", "")
         fetchAllServices("")
@@ -187,7 +186,10 @@ class HealthServicesActivity : DaggerAppCompatActivity(), OnMapReadyCallback,
 
     private fun fetchAllServices(query: String) {
         val specialization = filterBinding.specialitySpinner.selectedItem.toString()
-        val distance = filterBinding.specialitySpinner.selectedItem.toString()
+        var distance = filterBinding.specialitySpinner.selectedItem.toString()
+        if (distance === "") {
+            distance = "50"
+        }
         token.let {
             healthServicesViewModel.fetchAll(it, specialization, query, distance)
         }
@@ -195,7 +197,10 @@ class HealthServicesActivity : DaggerAppCompatActivity(), OnMapReadyCallback,
 
     private fun fetchDoctors(query: String) {
         val specialization = filterBinding.specialitySpinner.selectedItem.toString()
-        val distance = filterBinding.specialitySpinner.selectedItem.toString()
+        var distance = filterBinding.specialitySpinner.selectedItem.toString()
+        if (distance === "") {
+            distance = "50"
+        }
         token.let {
             healthServicesViewModel.fetchDoctors(it, specialization, query, distance)
         }
@@ -203,7 +208,10 @@ class HealthServicesActivity : DaggerAppCompatActivity(), OnMapReadyCallback,
 
     private fun fetchHospitals(query: String) {
         val specialization = filterBinding.specialitySpinner.selectedItem.toString()
-        val distance = filterBinding.specialitySpinner.selectedItem.toString()
+        var distance = filterBinding.specialitySpinner.selectedItem.toString()
+        if (distance === "") {
+            distance = "50"
+        }
         token.let {
             healthServicesViewModel.fetchHospitals(it, specialization, query, distance)
         }
@@ -238,7 +246,8 @@ class HealthServicesActivity : DaggerAppCompatActivity(), OnMapReadyCallback,
 
     override fun onInfoWindowClick(marker: Marker?) {
         val id = (marker?.tag as HealthService).id
-        goToDetail(id)
+        val healthCenter = (marker?.tag as HealthService).healthCenter
+        goToDetail(id, healthCenter)
     }
 
     private fun initFab() {
@@ -266,9 +275,10 @@ class HealthServicesActivity : DaggerAppCompatActivity(), OnMapReadyCallback,
         locationManager.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-    fun goToDetail(id: Int) {
+    fun goToDetail(id: Int, healthCenter: Boolean) {
         val intent = Intent(this, ServiceDetailActivity::class.java)
         intent.putExtra("ID", id)
+        intent.putExtra("HEALTH_CENTER", healthCenter)
         startActivity(intent)
     }
 }

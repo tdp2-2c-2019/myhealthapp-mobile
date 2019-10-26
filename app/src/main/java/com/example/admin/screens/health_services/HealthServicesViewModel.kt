@@ -32,19 +32,19 @@ class HealthServicesViewModel(private var healthServicesRepository: HealthServic
 
     fun fetchAll(token: String, specialization: String, query: String, distance: String) {
         fetchHealthServices(
-            healthServicesRepository.healthServices(token, specialization, query, distance, lastKnownLocation.latitude, lastKnownLocation.longitude)
+            healthServicesRepository.healthServices(token, specialization, query, distance.toDouble(), lastKnownLocation.latitude, lastKnownLocation.longitude)
         )
     }
 
     fun fetchDoctors(token: String, specialization: String, query: String, distance: String) {
         fetchHealthServices(
-            healthServicesRepository.doctors(token, specialization, query, distance, lastKnownLocation.latitude, lastKnownLocation.longitude)
+            healthServicesRepository.doctors(token, specialization, query, distance.toDouble(), lastKnownLocation.latitude, lastKnownLocation.longitude)
         )
     }
 
     fun fetchHospitals(token: String, specialization: String, query: String, distance: String) {
         fetchHealthServices(
-            healthServicesRepository.hospitals(token, specialization, query, distance, lastKnownLocation.latitude, lastKnownLocation.longitude)
+            healthServicesRepository.hospitals(token, specialization, query, distance.toDouble(), lastKnownLocation.latitude, lastKnownLocation.longitude)
         )
     }
 

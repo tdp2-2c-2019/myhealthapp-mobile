@@ -14,30 +14,30 @@ class HealthServicesRemoteRepository @Inject constructor(private var healthServi
         token: String,
         specialization: String,
         query: String,
-        distance: String,
+        distance: Double,
         lat: Double, long: Double
     ): Observable<ArrayList<HealthService>> {
-        return healthServicesService.healthServices(token, specialization, query)
+        return healthServicesService.healthServices(token, specialization, query, distance, lat, long)
     }
 
     fun doctors(
         token: String,
         specialization: String,
         query: String,
-        distance: String,
+        distance: Double,
         lat: Double, long: Double
     ): Observable<ArrayList<HealthService>> {
-        return healthServicesService.doctors(token, specialization, query)
+        return healthServicesService.doctors(token, specialization, query, distance, lat, long)
     }
 
     fun hospitals(
         token: String,
         specialization: String,
         query: String,
-        distance: String,
+        distance: Double,
         lat: Double, long: Double
     ): Observable<ArrayList<HealthService>> {
-        return healthServicesService.hospitals(token, specialization, query)
+        return healthServicesService.hospitals(token, specialization, query, distance, lat, long)
     }
 
     fun hospitalDetail(id: Int): Observable<HealthService> {
