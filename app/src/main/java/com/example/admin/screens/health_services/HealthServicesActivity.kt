@@ -140,7 +140,7 @@ class HealthServicesActivity : DaggerAppCompatActivity(), OnMapReadyCallback,
     }
 
     private fun initDistanceSpinner() {
-        val distances = arrayListOf("", "1", "2", "3", "4", "5")
+        val distances = arrayListOf("", "1 km", "2 km", "3 km", "4 km", "5 km")
         filterBinding.distanceSpinner.adapter =
             ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, distances)
     }
@@ -189,6 +189,8 @@ class HealthServicesActivity : DaggerAppCompatActivity(), OnMapReadyCallback,
         var distance = filterBinding.distanceSpinner.selectedItem.toString()
         if (distance === "") {
             distance = "50"
+        } else {
+            distance = distance.substring(0, 1)
         }
         token.let {
             healthServicesViewModel.fetchAll(it, specialization, query, distance)
@@ -200,6 +202,8 @@ class HealthServicesActivity : DaggerAppCompatActivity(), OnMapReadyCallback,
         var distance = filterBinding.distanceSpinner.selectedItem.toString()
         if (distance === "") {
             distance = "50"
+        } else {
+            distance = distance.substring(0, 1)
         }
         token.let {
             healthServicesViewModel.fetchDoctors(it, specialization, query, distance)
@@ -211,6 +215,8 @@ class HealthServicesActivity : DaggerAppCompatActivity(), OnMapReadyCallback,
         var distance = filterBinding.distanceSpinner.selectedItem.toString()
         if (distance === "") {
             distance = "50"
+        } else {
+            distance = distance.substring(0, 1)
         }
         token.let {
             healthServicesViewModel.fetchHospitals(it, specialization, query, distance)
