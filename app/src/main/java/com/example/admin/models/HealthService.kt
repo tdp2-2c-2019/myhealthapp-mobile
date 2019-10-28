@@ -21,7 +21,7 @@ data class HealthService(
 )
 
 @BindingAdapter("bindArray")
-fun bindArray(textView: TextView, string: String) {
-    //var subString = string.substring(1, string.length - 1)
-    textView.text = string
+fun bindArray(textView: TextView, string: String?) {
+    val subString = string?.substring(1, string.length - 1)
+    textView.text = subString
 }

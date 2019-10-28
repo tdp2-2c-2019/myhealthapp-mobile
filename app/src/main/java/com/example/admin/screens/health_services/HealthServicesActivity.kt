@@ -186,7 +186,7 @@ class HealthServicesActivity : DaggerAppCompatActivity(), OnMapReadyCallback,
 
     private fun fetchAllServices(query: String) {
         val specialization = filterBinding.specialitySpinner.selectedItem.toString()
-        var distance = filterBinding.specialitySpinner.selectedItem.toString()
+        var distance = filterBinding.distanceSpinner.selectedItem.toString()
         if (distance === "") {
             distance = "50"
         }
@@ -197,7 +197,7 @@ class HealthServicesActivity : DaggerAppCompatActivity(), OnMapReadyCallback,
 
     private fun fetchDoctors(query: String) {
         val specialization = filterBinding.specialitySpinner.selectedItem.toString()
-        var distance = filterBinding.specialitySpinner.selectedItem.toString()
+        var distance = filterBinding.distanceSpinner.selectedItem.toString()
         if (distance === "") {
             distance = "50"
         }
@@ -208,7 +208,7 @@ class HealthServicesActivity : DaggerAppCompatActivity(), OnMapReadyCallback,
 
     private fun fetchHospitals(query: String) {
         val specialization = filterBinding.specialitySpinner.selectedItem.toString()
-        var distance = filterBinding.specialitySpinner.selectedItem.toString()
+        var distance = filterBinding.distanceSpinner.selectedItem.toString()
         if (distance === "") {
             distance = "50"
         }
