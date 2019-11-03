@@ -3,10 +3,7 @@ package com.example.admin.repositories.health_services
 import com.example.admin.models.Authorization
 import com.example.admin.models.HealthService
 import io.reactivex.Observable
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 import java.util.ArrayList
 
 interface HealthServicesService {
@@ -60,5 +57,12 @@ interface HealthServicesService {
     fun authorizations(
         @Header("Authorization") authorization: String
     ): Observable<ArrayList<Authorization>>
+
+    @FormUrlEncoded
+    @POST("api/authorizations")
+    fun createAuthorization(
+        @Header("Authorization") authorization: String,
+        @Field("title") title: String
+    ): Observable<Authorization>
 
 }

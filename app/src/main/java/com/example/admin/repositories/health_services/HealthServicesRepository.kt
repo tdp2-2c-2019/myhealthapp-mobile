@@ -11,4 +11,5 @@ interface HealthServicesRepository {
     fun hospitalDetail(id: Int, lat: Double, long: Double): Observable<HealthService>
     fun doctorDetail(id: Int, lat: Double, long: Double): Observable<HealthService>
     fun authorizations(token: String): Observable<ArrayList<Authorization>>
+    fun createAuthorization(token: String, title: String): Observable<Authorization>
 }

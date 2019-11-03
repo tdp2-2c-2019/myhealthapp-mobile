@@ -52,4 +52,8 @@ class HealthServicesRemoteRepository @Inject constructor(private var healthServi
         return healthServicesService.authorizations(token)
     }
 
+    fun createAuthorization(token: String, title: String): Observable<Authorization> {
+        return healthServicesService.createAuthorization(token, title)
+    }
+
 }

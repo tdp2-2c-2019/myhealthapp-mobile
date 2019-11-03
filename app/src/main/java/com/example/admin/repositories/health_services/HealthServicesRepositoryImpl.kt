@@ -51,4 +51,8 @@ class HealthServicesRepositoryImpl(private val remoteDataSource: HealthServicesR
         return remoteDataSource.authorizations(token)
     }
 
+    override fun createAuthorization(token: String, title: String): Observable<Authorization> {
+        return remoteDataSource.createAuthorization(token, title)
+    }
+
 }

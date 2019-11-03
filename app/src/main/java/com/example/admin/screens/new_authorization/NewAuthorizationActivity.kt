@@ -1,21 +1,26 @@
 package com.example.admin.screens.new_authorization
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View.GONE
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.admin.R
 import com.example.admin.databinding.ActivityNewAuthorizationBinding
+import com.example.admin.utils.Validator
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
 class NewAuthorizationActivity : DaggerAppCompatActivity() {
+
+    var hasImage: Boolean = false
 
     lateinit var token: String
 
@@ -29,6 +34,10 @@ class NewAuthorizationActivity : DaggerAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_new_authorization)
+
+        val sharedPref = this.getSharedPreferences("TOKEN SP", Context.MODE_PRIVATE) ?: return
+        token = sharedPref.getString("TOKEN", "")
+
         init()
     }
 
@@ -36,6 +45,7 @@ class NewAuthorizationActivity : DaggerAppCompatActivity() {
         initViewModel()
         initFamilySpinner()
         initImageListeners()
+        initCreateListener()
         observeSuccess()
     }
 
@@ -61,13 +71,32 @@ class NewAuthorizationActivity : DaggerAppCompatActivity() {
         }
     }
 
+    private fun initCreateListener() {
+        binding.confirmBtn.setOnClickListener {
+            token.let {
+                if (Validator.authValidator(binding, hasImage)) {
+                    newAuthorizationViewModel.createAuthorization(
+                        it,
+                        binding.titleInput.text.toString()
+                    )
+                }
+            }
+        }
+    }
+
     private fun observeSuccess() {
         newAuthorizationViewModel.success.observe(
             this,
             Observer<Boolean> {
-                if (!it) showErrorDialog()
+                if(it) goBack()
+                else showErrorDialog()
             }
         )
+    }
+
+    private fun goBack() {
+        Toast.makeText(this, "¡Autorización creada!", Toast.LENGTH_SHORT).show()
+        finish()
     }
 
     private fun showErrorDialog() {
@@ -99,11 +128,13 @@ class NewAuthorizationActivity : DaggerAppCompatActivity() {
             val imageBitmap = data?.extras?.get("data") as Bitmap
             binding.image.setImageBitmap(imageBitmap)
             hideImageSelection()
+            hasImage = true
         }
         if (requestCode == SELECT_IMAGE && resultCode == RESULT_OK) {
             val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, data?.data)
             binding.image.setImageBitmap(bitmap)
             hideImageSelection()
+            hasImage = true
         }
     }
 

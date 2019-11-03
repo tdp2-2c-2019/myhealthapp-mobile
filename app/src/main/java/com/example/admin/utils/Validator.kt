@@ -1,10 +1,7 @@
 package com.example.admin.utils
 
 import android.util.Patterns
-import com.example.admin.databinding.ActivityEmailBinding
-import com.example.admin.databinding.ActivityForgotPasswordBinding
-import com.example.admin.databinding.ActivityLoginBinding
-import com.example.admin.databinding.ActivitySignInBinding
+import com.example.admin.databinding.*
 
 
 class Validator {
@@ -130,6 +127,31 @@ class Validator {
             }
             if (binding.repeatPasswordInput.text.isEmpty()) {
                 binding.repeatPasswordError.text = emptyError
+                valid = false
+            }
+
+            return valid
+        }
+
+        fun authValidator(binding: ActivityNewAuthorizationBinding, image: Boolean): Boolean {
+            var valid = true
+
+            binding.titleError.text = ""
+            binding.familyError.text = ""
+            binding.imageError.text = ""
+
+            if (binding.titleInput.text.isEmpty()) {
+                binding.titleError.text = emptyError
+                valid = false
+            }
+
+            if (binding.familySpinner.selectedItem.toString().isEmpty()) {
+                binding.familyError.text = "Tenés que seleccionar una opción"
+                valid = false
+            }
+
+            if (!image) {
+                binding.imageError.text = "Tenés que adjuntar una imagen"
                 valid = false
             }
 
