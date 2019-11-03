@@ -25,15 +25,15 @@ class ServiceDetailViewModel(private var servicesRepository: HealthServicesRepos
 
     private val compositeDisposable = CompositeDisposable()
 
-    fun fetchHospitalDetail(id: Int) {
-        fetchDetail(servicesRepository.hospitalDetail(id))
+    fun fetchHospitalDetail(id: Int, lat: Double, long: Double) {
+        fetchDetail(servicesRepository.hospitalDetail(id, lat, long))
     }
 
-    fun fetchDoctorDetail(id: Int) {
-        fetchDetail(servicesRepository.doctorDetail(id))
+    fun fetchDoctorDetail(id: Int, lat: Double, long: Double) {
+        fetchDetail(servicesRepository.doctorDetail(id, lat, long))
     }
 
-    fun fetchDetail(observable: Observable<HealthService>) {
+    private fun fetchDetail(observable: Observable<HealthService>) {
         compositeDisposable.add(
             observable
                 .subscribeOn(Schedulers.io())

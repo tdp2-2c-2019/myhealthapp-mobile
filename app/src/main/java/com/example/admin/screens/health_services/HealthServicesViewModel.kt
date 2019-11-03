@@ -100,6 +100,10 @@ class HealthServicesViewModel(private var healthServicesRepository: HealthServic
         lastKnownLocation = location
     }
 
+    fun getLocation(): Location {
+        return lastKnownLocation
+    }
+
     fun setMarkers(services: ArrayList<HealthService>) {
         mMap.clear()
         services.forEach {

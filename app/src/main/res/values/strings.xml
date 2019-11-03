@@ -5,6 +5,7 @@
     <string name="title_activity_forgot_password">Recuperar contraseña</string>
     <string name="title_activity_service_detail">Detalle de servicio</string>
     <string name="title_activity_authorizations">Autorizaciones</string>
+    <string name="title_activity_new_authorization">Nueva autorización</string>
     <string name="title_activity_filter">Seleccioná lo que buscas</string>
     <string name="title_activity_health_services">Servicios de salud</string>
     <string name="empty_max_range">No existen resultados. Por favor muevase por la ciudad y vuelva a intentarlo</string>
@@ -24,11 +25,13 @@
     <string name="authorizations_text">Vas a poder crear una nueva autorización</string>
     <string name="forgot_pass_info">Ingresá el código enviado a tu mail y elegí tu nueva contraseña</string>
     <string name="email_info">Ingresá el mail asociado a tu cuenta para poder recuperar tu contraseña</string>
+    <string name="auth_info">Ingresá un título para identificarla, para quien es y una imagen de la autorización</string>
     <string name="email_code_info">Te vamos a enviar un código que vas a necesitar para la recuperación</string>
     <string name="search">Buscar</string>
     <string name="filter">Filtrar</string>
     <string name="search_hint">Buscar por nombre</string>
     <string name="cancel">Cancelar</string>
     <string name="empty_info">No encontramos servicios con estas características, probá cambiando los filtros</string>
-    <string name="empty_auths">No tenés autorizaciones, crea una nueva tocando "+"</string>
+    <string name="empty_auths_title">No tenés autorizaciones</string>
+    <string name="empty_auths">Crea una nueva tocando "+"</string>
 </resources>

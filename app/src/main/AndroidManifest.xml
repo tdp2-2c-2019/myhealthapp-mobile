@@ -88,6 +88,11 @@
             android:label="@string/title_activity_authorizations">
         </activity>
 
+        <activity
+            android:name=".screens.new_authorization.NewAuthorizationActivity"
+            android:label="@string/title_activity_new_authorization">
+        </activity>
+
     </application>
 
 </manifest>

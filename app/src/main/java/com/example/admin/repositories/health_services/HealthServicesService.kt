@@ -44,12 +44,16 @@ interface HealthServicesService {
 
     @GET("api/health-services/hospitals/{id}")
     fun hospitalDetail(
-        @Path("id") id: Int
+        @Path("id") id: Int,
+        @Query("originLat") lat: Double,
+        @Query("originLon") long: Double
     ): Observable<HealthService>
 
     @GET("api/health-services/doctors/{id}")
     fun doctorDetail(
-        @Path("id") id: Int
+        @Path("id") id: Int,
+        @Query("originLat") lat: Double,
+        @Query("originLon") long: Double
     ): Observable<HealthService>
 
     @GET("api/authorizations")

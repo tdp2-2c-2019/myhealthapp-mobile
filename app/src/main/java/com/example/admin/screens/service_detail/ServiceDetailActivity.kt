@@ -33,12 +33,14 @@ class ServiceDetailActivity : DaggerAppCompatActivity() {
 
     private fun fetchDetail() {
         val id = intent.getIntExtra("ID", 0)
+        val lat = intent.getDoubleExtra("LAT", 0.0)
+        val long = intent.getDoubleExtra("LONG", 0.0)
         val healthCenter = intent.getBooleanExtra("HEALTH_CENTER", true)
 
         if(healthCenter) {
-            serviceDetailViewModel.fetchHospitalDetail(id)
+            serviceDetailViewModel.fetchHospitalDetail(id, lat, long)
         } else {
-            serviceDetailViewModel.fetchDoctorDetail(id)
+            serviceDetailViewModel.fetchDoctorDetail(id, lat, long)
         }
     }
 

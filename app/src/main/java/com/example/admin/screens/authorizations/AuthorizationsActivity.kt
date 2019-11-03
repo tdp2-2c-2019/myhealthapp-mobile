@@ -1,6 +1,7 @@
 package com.example.admin.screens.authorizations
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.admin.R
 import com.example.admin.databinding.ActivityAuthorizationsBinding
 import com.example.admin.models.Authorization
+import com.example.admin.screens.new_authorization.NewAuthorizationActivity
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
@@ -93,7 +95,7 @@ class AuthorizationsActivity : DaggerAppCompatActivity() {
 
     private fun initFab() {
         binding.fab.setOnClickListener {
-            showAuthorizationsDialog()
+            startActivity(Intent(this, NewAuthorizationActivity::class.java))
         }
     }
 

@@ -282,9 +282,12 @@ class HealthServicesActivity : DaggerAppCompatActivity(), OnMapReadyCallback,
     }
 
     fun goToDetail(id: Int, healthCenter: Boolean) {
+        val coord = healthServicesViewModel.getLocation()
         val intent = Intent(this, ServiceDetailActivity::class.java)
         intent.putExtra("ID", id)
         intent.putExtra("HEALTH_CENTER", healthCenter)
+        intent.putExtra("LAT", coord.latitude)
+        intent.putExtra("LONG", coord.longitude)
         startActivity(intent)
     }
 }

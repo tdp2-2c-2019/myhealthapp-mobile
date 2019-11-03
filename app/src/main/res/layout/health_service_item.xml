@@ -34,7 +34,7 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/service_distance"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Hospital posadas" />
 
