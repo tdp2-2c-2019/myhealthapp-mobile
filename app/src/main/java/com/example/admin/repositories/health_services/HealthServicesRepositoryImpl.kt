@@ -1,6 +1,8 @@
 package com.example.admin.repositories.health_services
 
+import com.example.admin.models.AuthResponse
 import com.example.admin.models.Authorization
+import com.example.admin.models.FamilyUser
 import com.example.admin.models.HealthService
 import io.reactivex.Observable
 import javax.inject.Singleton
@@ -51,8 +53,11 @@ class HealthServicesRepositoryImpl(private val remoteDataSource: HealthServicesR
         return remoteDataSource.authorizations(token)
     }
 
-    override fun createAuthorization(token: String, title: String): Observable<Authorization> {
-        return remoteDataSource.createAuthorization(token, title)
+    override fun createAuthorization(token: String, title: String, from: String, to: String): Observable<AuthResponse> {
+        return remoteDataSource.createAuthorization(token, title, from, to)
     }
 
+    override fun getFamilyGroup(dni: String): Observable<ArrayList<FamilyUser>> {
+        return remoteDataSource.getFamilyGroup(dni)
+    }
 }

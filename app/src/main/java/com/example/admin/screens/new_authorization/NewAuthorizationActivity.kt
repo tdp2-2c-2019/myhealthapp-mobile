@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.admin.R
 import com.example.admin.databinding.ActivityNewAuthorizationBinding
+import com.example.admin.models.FamilyUser
 import com.example.admin.utils.Validator
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
@@ -23,6 +24,7 @@ class NewAuthorizationActivity : DaggerAppCompatActivity() {
     var hasImage: Boolean = false
 
     lateinit var token: String
+    lateinit var dni: String
 
     lateinit var binding: ActivityNewAuthorizationBinding
 
@@ -37,6 +39,7 @@ class NewAuthorizationActivity : DaggerAppCompatActivity() {
 
         val sharedPref = this.getSharedPreferences("TOKEN SP", Context.MODE_PRIVATE) ?: return
         token = sharedPref.getString("TOKEN", "")
+        dni = sharedPref.getString("DNI", "")
 
         init()
     }
@@ -44,8 +47,10 @@ class NewAuthorizationActivity : DaggerAppCompatActivity() {
     private fun init() {
         initViewModel()
         initFamilySpinner()
+        initTypeSpinner()
         initImageListeners()
         initCreateListener()
+        observeFamily()
         observeSuccess()
     }
 
@@ -56,10 +61,16 @@ class NewAuthorizationActivity : DaggerAppCompatActivity() {
         binding.executePendingBindings()
     }
 
-    private fun initFamilySpinner() {
-        val family = arrayListOf("", "25333444", "38213789", "24675348")
+    private fun initFamilySpinner(familyFetch: List<String> = arrayListOf()) {
+        val family = arrayListOf("") + familyFetch
         binding.familySpinner.adapter =
             ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, family)
+    }
+
+    private fun initTypeSpinner() {
+        val types = arrayListOf("", "Radiografia", "Resonancia", "Ecografia")
+        binding.typeSpinner.adapter =
+            ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, types)
     }
 
     private fun initImageListeners() {
@@ -77,11 +88,35 @@ class NewAuthorizationActivity : DaggerAppCompatActivity() {
                 if (Validator.authValidator(binding, hasImage)) {
                     newAuthorizationViewModel.createAuthorization(
                         it,
-                        binding.titleInput.text.toString()
+                        binding.titleInput.text.toString(),
+                        dni,
+                        getDniFromName(binding.familySpinner.selectedItem.toString())
                     )
                 }
             }
         }
+    }
+
+    private fun getDniFromName(name: String) : String {
+        var result = ""
+        newAuthorizationViewModel.family.value?.forEach {
+            val familyName = it.firstName + " " + it.lastName
+            if (familyName == name) {
+                result = it.dni
+            }
+        }
+        return result
+    }
+
+    private fun observeFamily() {
+        newAuthorizationViewModel.family.observe(
+            this,
+            Observer<ArrayList<FamilyUser>> {
+                val filter = it.map { familyUser -> familyUser.firstName + " " + familyUser.lastName }
+                initFamilySpinner(filter)
+            }
+        )
+        newAuthorizationViewModel.getFamilyGroup(dni)
     }
 
     private fun observeSuccess() {

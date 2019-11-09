@@ -1,6 +1,8 @@
 package com.example.admin.repositories.health_services
 
+import com.example.admin.models.AuthResponse
 import com.example.admin.models.Authorization
+import com.example.admin.models.FamilyUser
 import com.example.admin.models.HealthService
 import io.reactivex.Observable
 import java.util.ArrayList
@@ -52,8 +54,12 @@ class HealthServicesRemoteRepository @Inject constructor(private var healthServi
         return healthServicesService.authorizations(token)
     }
 
-    fun createAuthorization(token: String, title: String): Observable<Authorization> {
-        return healthServicesService.createAuthorization(token, title)
+    fun createAuthorization(token: String, title: String, from: String, to: String): Observable<AuthResponse> {
+        return healthServicesService.createAuthorization(token, title, from, to)
+    }
+
+    fun getFamilyGroup(dni: String): Observable<ArrayList<FamilyUser>> {
+        return healthServicesService.getFamilyGroup(dni)
     }
 
 }

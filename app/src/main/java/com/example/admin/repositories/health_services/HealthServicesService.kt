@@ -1,6 +1,8 @@
 package com.example.admin.repositories.health_services
 
+import com.example.admin.models.AuthResponse
 import com.example.admin.models.Authorization
+import com.example.admin.models.FamilyUser
 import com.example.admin.models.HealthService
 import io.reactivex.Observable
 import retrofit2.http.*
@@ -62,7 +64,13 @@ interface HealthServicesService {
     @POST("api/authorizations")
     fun createAuthorization(
         @Header("Authorization") authorization: String,
-        @Field("title") title: String
-    ): Observable<Authorization>
+        @Field("title") title: String,
+        @Field("created_by") from: String,
+        @Field("created_for") to: String
+    ): Observable<AuthResponse>
 
+    @GET("api/users/{dni}/family-group")
+    fun getFamilyGroup(
+        @Path("dni") dni: String
+    ): Observable<ArrayList<FamilyUser>>
 }

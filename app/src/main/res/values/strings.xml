@@ -25,7 +25,7 @@
     <string name="authorizations_text">Vas a poder crear una nueva autorización</string>
     <string name="forgot_pass_info">Ingresá el código enviado a tu mail y elegí tu nueva contraseña</string>
     <string name="email_info">Ingresá el mail asociado a tu cuenta para poder recuperar tu contraseña</string>
-    <string name="auth_info">Ingresá un título para identificarla, para quien es y una imagen de la autorización</string>
+    <string name="auth_info">Ingresá qué querés autorizar, para quien es y una foto de la autorización</string>
     <string name="email_code_info">Te vamos a enviar un código que vas a necesitar para la recuperación</string>
     <string name="search">Buscar</string>
     <string name="filter">Filtrar</string>

@@ -12,9 +12,14 @@
             type="com.example.admin.screens.new_authorization.NewAuthorizationViewModel" />
     </data>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         tools:context=".screens.new_authorization.NewAuthorizationActivity">
 
         <TextView
@@ -56,6 +61,53 @@
             app:layout_constraintTop_toBottomOf="@+id/title_input" />
 
         <TextView
+            android:id="@+id/type_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="Tipo:"
+            android:textColor="#999999"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/type_spinner"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <Spinner
+            android:id="@+id/type_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="15dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title_input" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginRight="18dp"
+            android:background="#999999"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/type_spinner" />
+
+        <TextView
+            android:id="@+id/type_error"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:textColor="#F80D0D"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/type_spinner" />
+
+        <TextView
             android:id="@+id/family_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -77,7 +129,7 @@
             android:layout_marginRight="15dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title_input" />
+            app:layout_constraintTop_toBottomOf="@+id/type_error" />
 
         <View
             android:layout_width="match_parent"
@@ -105,7 +157,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/image_container"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="250dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="50dp"
             android:layout_marginRight="15dp"
@@ -216,7 +268,7 @@
             android:layout_marginRight="15dp"
             android:layout_marginBottom="15dp"
             android:background="@color/colorPrimary"
-            android:text="CREAR AUTORIZACIÓN"
+            android:text="SOLICITAR AUTORIZACIÓN"
             android:textColor="@color/white"
             android:visibility="@{viewModel.isLoading ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -233,5 +285,6 @@
             app:layout_constraintRight_toRightOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </layout>

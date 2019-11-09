@@ -104,6 +104,7 @@ class LoginActivity : DaggerAppCompatActivity() {
         val sharedPref = this.getSharedPreferences("TOKEN SP",Context.MODE_PRIVATE) ?: return
         with (sharedPref.edit()) {
             putString("TOKEN", registration?.token)
+            putString("DNI", registration?.dni)
             commit()
         }
     }

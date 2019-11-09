@@ -139,9 +139,15 @@ class Validator {
             binding.titleError.text = ""
             binding.familyError.text = ""
             binding.imageError.text = ""
+            binding.typeError.text = ""
 
             if (binding.titleInput.text.isEmpty()) {
                 binding.titleError.text = emptyError
+                valid = false
+            }
+
+            if (binding.typeSpinner.selectedItem.toString().isEmpty()) {
+                binding.typeError.text = "Tenés que seleccionar una opción"
                 valid = false
             }
 
