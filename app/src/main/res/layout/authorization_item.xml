@@ -34,7 +34,7 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/authorization_date"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Tomografía" />
 
@@ -91,18 +91,6 @@
                 tools:text="Agustin Duhalde" />
 
             <TextView
-                android:id="@+id/date_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:text="Fecha:"
-                android:textSize="16sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/authorization_owner" />
-
-            <TextView
                 android:id="@+id/authorization_date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -112,9 +100,8 @@
                 android:text="@{authorization.date}"
                 android:textSize="16sp"
                 app:bindServerDate="@{authorization.date}"
-                app:layout_constraintLeft_toRightOf="@id/date_label"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/authorization_owner"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="20/12/19" />
 
             <TextView
@@ -127,7 +114,7 @@
                 android:text="Estado:"
                 android:textSize="16sp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/authorization_date" />
+                app:layout_constraintTop_toBottomOf="@id/authorization_owner" />
 
             <TextView
                 android:id="@+id/authorization_state"
@@ -140,7 +127,7 @@
                 android:textSize="16sp"
                 app:layout_constraintLeft_toRightOf="@id/state_label"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/authorization_date"
+                app:layout_constraintTop_toBottomOf="@id/authorization_owner"
                 tools:text="PENDIENTE" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

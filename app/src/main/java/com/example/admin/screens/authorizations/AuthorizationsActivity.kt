@@ -36,6 +36,11 @@ class AuthorizationsActivity : DaggerAppCompatActivity() {
         init()
     }
 
+    override fun onResume() {
+        super.onResume()
+        fetchAuthorizations()
+    }
+
     private fun init() {
         initViewModel()
         initFab()
