@@ -146,7 +146,7 @@ class HealthServicesActivity : DaggerAppCompatActivity(), OnMapReadyCallback,
     }
 
     private fun initSpecializationSpinner() {
-        val specialities = arrayListOf("", "Cardiologia", "Clinica", "Dermatologia", "Odontologia")
+        val specialities = arrayListOf("", "Cardiología", "Clínica", "Dermatología", "Odontología")
         filterBinding.specialitySpinner.adapter =
             ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, specialities)
     }

@@ -216,7 +216,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
-            android:text="Plan necesario"
+            android:text="Plan mínimo"
             android:textColor="@color/colorPrimary"
             android:textSize="20sp"
             app:layout_constraintLeft_toLeftOf="@id/vertical"
