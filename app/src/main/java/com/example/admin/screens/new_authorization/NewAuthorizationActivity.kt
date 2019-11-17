@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.admin.R
 import com.example.admin.databinding.ActivityNewAuthorizationBinding
+import com.example.admin.models.AuthorizationType
 import com.example.admin.models.FamilyUser
 import com.example.admin.utils.Validator
 import dagger.android.support.DaggerAppCompatActivity
@@ -51,6 +52,7 @@ class NewAuthorizationActivity : DaggerAppCompatActivity() {
         initImageListeners()
         initCreateListener()
         observeFamily()
+        observeTypes()
         observeSuccess()
     }
 
@@ -67,8 +69,8 @@ class NewAuthorizationActivity : DaggerAppCompatActivity() {
             ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, family)
     }
 
-    private fun initTypeSpinner() {
-        val types = arrayListOf("", "Radiografia", "Resonancia", "Ecografia")
+    private fun initTypeSpinner(typesFetch: List<String> = arrayListOf()) {
+        val types = arrayListOf("") + typesFetch
         binding.typeSpinner.adapter =
             ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, types)
     }
@@ -90,7 +92,8 @@ class NewAuthorizationActivity : DaggerAppCompatActivity() {
                         it,
                         binding.titleInput.text.toString(),
                         dni,
-                        getDniFromName(binding.familySpinner.selectedItem.toString())
+                        getDniFromName(binding.familySpinner.selectedItem.toString()),
+                        getTypeFromName(binding.typeSpinner.selectedItem.toString())
                     )
                 }
             }
@@ -108,6 +111,16 @@ class NewAuthorizationActivity : DaggerAppCompatActivity() {
         return result
     }
 
+    private fun getTypeFromName(name: String) : Int {
+        var result = 0
+        newAuthorizationViewModel.types.value?.forEach {
+            if (it.title == name) {
+                result = it.id
+            }
+        }
+        return result
+    }
+
     private fun observeFamily() {
         newAuthorizationViewModel.family.observe(
             this,
@@ -117,6 +130,17 @@ class NewAuthorizationActivity : DaggerAppCompatActivity() {
             }
         )
         newAuthorizationViewModel.getFamilyGroup(dni)
+    }
+
+    private fun observeTypes() {
+        newAuthorizationViewModel.types.observe(
+            this,
+            Observer<ArrayList<AuthorizationType>> {
+                val filter = it.map { type -> type.title }
+                initTypeSpinner(filter)
+            }
+        )
+        newAuthorizationViewModel.getTypes()
     }
 
     private fun observeSuccess() {

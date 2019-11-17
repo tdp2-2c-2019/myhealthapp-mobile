@@ -1,9 +1,6 @@
 package com.example.admin.repositories.health_services
 
-import com.example.admin.models.AuthResponse
-import com.example.admin.models.Authorization
-import com.example.admin.models.FamilyUser
-import com.example.admin.models.HealthService
+import com.example.admin.models.*
 import io.reactivex.Observable
 import retrofit2.http.*
 import java.util.ArrayList
@@ -66,11 +63,15 @@ interface HealthServicesService {
         @Header("Authorization") authorization: String,
         @Field("title") title: String,
         @Field("created_by") from: String,
-        @Field("created_for") to: String
+        @Field("created_for") to: String,
+        @Field("type") type: Int
     ): Observable<AuthResponse>
 
     @GET("api/users/{dni}/family-group")
     fun getFamilyGroup(
         @Path("dni") dni: String
     ): Observable<ArrayList<FamilyUser>>
+
+    @GET("api/authorizations/types")
+    fun getTypes(): Observable<ArrayList<AuthorizationType>>
 }

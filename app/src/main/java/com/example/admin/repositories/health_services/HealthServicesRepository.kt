@@ -1,9 +1,6 @@
 package com.example.admin.repositories.health_services
 
-import com.example.admin.models.AuthResponse
-import com.example.admin.models.Authorization
-import com.example.admin.models.FamilyUser
-import com.example.admin.models.HealthService
+import com.example.admin.models.*
 import io.reactivex.Observable
 
 interface HealthServicesRepository {
@@ -13,6 +10,7 @@ interface HealthServicesRepository {
     fun hospitalDetail(id: Int, lat: Double, long: Double): Observable<HealthService>
     fun doctorDetail(id: Int, lat: Double, long: Double): Observable<HealthService>
     fun authorizations(token: String): Observable<ArrayList<Authorization>>
-    fun createAuthorization(token: String, title: String, from: String, to: String): Observable<AuthResponse>
+    fun createAuthorization(token: String, title: String, from: String, to: String, type: Int): Observable<AuthResponse>
     fun getFamilyGroup(dni: String): Observable<ArrayList<FamilyUser>>
+    fun getTypes(): Observable<ArrayList<AuthorizationType>>
 }
