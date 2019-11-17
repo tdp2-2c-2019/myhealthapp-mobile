@@ -1,5 +1,6 @@
 package com.example.admin.models
 
+import android.graphics.Color
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import android.widget.TextView
@@ -27,4 +28,13 @@ fun bindServerDate(textView: TextView, date: String) {
 @BindingAdapter("bindFullName")
 fun bindFullName(textView: TextView, user: User) {
     textView.text = user.firstName + " " + user.lastName
+}
+
+@BindingAdapter("bindColor")
+fun bindColor(textView: TextView, status: String) {
+    when(status){
+        "APROBADO" -> textView.setTextColor(Color.parseColor("#4CAF50"))
+        "PENDIENTE" -> textView.setTextColor(Color.parseColor("#FF9800"))
+        "RECHAZADO" -> textView.setTextColor(Color.parseColor("#F44336"))
+    }
 }
