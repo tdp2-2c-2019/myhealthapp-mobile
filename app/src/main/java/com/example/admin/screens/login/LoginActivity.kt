@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
@@ -16,6 +17,7 @@ import com.example.admin.screens.forgot_password.EmailActivity
 import com.example.admin.screens.home.HomeActivity
 import com.example.admin.screens.sign_in.SignInActivity
 import com.example.admin.utils.Validator
+import com.google.firebase.iid.FirebaseInstanceId
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
@@ -28,10 +30,16 @@ class LoginActivity : DaggerAppCompatActivity() {
 
     lateinit var loginViewModel: LoginViewModel
 
+    lateinit var key: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
+
+        FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener { task ->
+            key = task.result?.token.toString()
+            Log.d("FIREBASE ID", key)
+        }
         init()
     }
 
@@ -67,7 +75,8 @@ class LoginActivity : DaggerAppCompatActivity() {
             if (Validator.logInValidator(binding)) {
                 loginViewModel.login(
                     binding.dniInput.text.toString(),
-                    binding.passwordInput.text.toString()
+                    binding.passwordInput.text.toString(),
+                    key
                 )
             }
         }

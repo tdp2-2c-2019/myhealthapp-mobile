@@ -2,7 +2,6 @@ package com.example.admin.repositories.login
 
 import com.example.admin.models.Registration
 import com.example.admin.models.SignInForm
-import io.reactivex.Completable
 import io.reactivex.Observable
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -14,8 +13,8 @@ class LoginRemoteRepository @Inject constructor(private var loginService: LoginS
         return loginService.signIn(form)
     }
 
-    fun logIn(dni: String, password: String): Observable<Registration> {
-        return loginService.logIn(dni, password)
+    fun logIn(dni: String, password: String, key: String): Observable<Registration> {
+        return loginService.logIn(dni, password, key)
     }
 
     fun newPassword(token: String, password: String): Observable<String> {

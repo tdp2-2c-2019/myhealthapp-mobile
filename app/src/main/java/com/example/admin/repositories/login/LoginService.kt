@@ -2,7 +2,6 @@ package com.example.admin.repositories.login
 
 import com.example.admin.models.Registration
 import com.example.admin.models.SignInForm
-import io.reactivex.Completable
 import io.reactivex.Observable
 import retrofit2.http.*
 
@@ -17,7 +16,8 @@ interface LoginService {
     @POST("api/login")
     fun logIn(
         @Field("dni") dni: String,
-        @Field("password") password: String
+        @Field("password") password: String,
+        @Field("key") key: String
     ): Observable<Registration>
 
     @FormUrlEncoded

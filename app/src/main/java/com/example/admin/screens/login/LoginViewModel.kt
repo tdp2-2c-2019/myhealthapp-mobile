@@ -23,9 +23,9 @@ class LoginViewModel(private var loginRepository: LoginRepository) : ViewModel()
 
     private val compositeDisposable = CompositeDisposable()
 
-    fun login(dni: String, password: String) {
+    fun login(dni: String, password: String, key: String) {
         compositeDisposable.add(
-            loginRepository.logIn(dni, password)
+            loginRepository.logIn(dni, password, key)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { isLoading.set(true) }
