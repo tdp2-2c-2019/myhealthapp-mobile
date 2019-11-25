@@ -18,6 +18,9 @@ import com.example.admin.models.AuthorizationType
 import com.example.admin.models.FamilyUser
 import com.example.admin.utils.Validator
 import dagger.android.support.DaggerAppCompatActivity
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 import javax.inject.Inject
 
 class NewAuthorizationActivity : DaggerAppCompatActivity() {
@@ -88,12 +91,26 @@ class NewAuthorizationActivity : DaggerAppCompatActivity() {
         binding.confirmBtn.setOnClickListener {
             token.let {
                 if (Validator.authValidator(binding, hasImage)) {
+
+                    val bos = ByteArrayOutputStream()
+                    imageBitmap.compress(Bitmap.CompressFormat.JPEG, 0, bos)
+                    val bitmapData = bos.toByteArray()
+
+                    val f = File(this.cacheDir, "image")
+                    f.createNewFile()
+
+                    val fos = FileOutputStream(f)
+                    fos.write(bitmapData)
+                    fos.flush()
+                    fos.close()
+
                     newAuthorizationViewModel.createAuthorization(
                         it,
                         binding.titleInput.text.toString(),
                         dni,
                         getDniFromName(binding.familySpinner.selectedItem.toString()),
-                        getTypeFromName(binding.typeSpinner.selectedItem.toString())
+                        getTypeFromName(binding.typeSpinner.selectedItem.toString()),
+                        f
                     )
                 }
             }
@@ -181,17 +198,19 @@ class NewAuthorizationActivity : DaggerAppCompatActivity() {
         startActivityForResult(intent, SELECT_IMAGE)
     }
 
+    lateinit var imageBitmap: Bitmap
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            val imageBitmap = data?.extras?.get("data") as Bitmap
+            imageBitmap = data?.extras?.get("data") as Bitmap
             binding.image.setImageBitmap(imageBitmap)
             hideImageSelection()
             hasImage = true
         }
         if (requestCode == SELECT_IMAGE && resultCode == RESULT_OK) {
-            val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, data?.data)
-            binding.image.setImageBitmap(bitmap)
+            imageBitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, data?.data)
+            binding.image.setImageBitmap(imageBitmap)
             hideImageSelection()
             hasImage = true
         }

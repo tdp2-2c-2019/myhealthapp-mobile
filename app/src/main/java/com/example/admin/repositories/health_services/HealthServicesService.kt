@@ -2,6 +2,8 @@ package com.example.admin.repositories.health_services
 
 import com.example.admin.models.*
 import io.reactivex.Observable
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.*
 import java.util.ArrayList
 
@@ -57,14 +59,17 @@ interface HealthServicesService {
         @Header("Authorization") authorization: String
     ): Observable<ArrayList<Authorization>>
 
-    @FormUrlEncoded
+    @JvmSuppressWildcards
+    @Multipart
     @POST("api/authorizations")
     fun createAuthorization(
         @Header("Authorization") authorization: String,
-        @Field("title") title: String,
-        @Field("created_by") from: String,
-        @Field("created_for") to: String,
-        @Field("type") type: Int
+        @PartMap params: Map<String, RequestBody>
+        //@Part("title") title: RequestBody,
+        //@Part("created_by") from: RequestBody,
+        //@Part("created_for") to: RequestBody,
+        //@Part("type") type: RequestBody,
+        //@Part("photo") photo: MultipartBody.Part
     ): Observable<AuthResponse>
 
     @GET("api/users/{dni}/family-group")

@@ -11,6 +11,7 @@ import com.example.admin.utils.Utils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import java.io.File
 
 class NewAuthorizationViewModel(private var authorizationsRepository: HealthServicesRepository) :
     ViewModel() {
@@ -32,10 +33,11 @@ class NewAuthorizationViewModel(private var authorizationsRepository: HealthServ
         title: String,
         fromDni: String,
         toDni: String,
-        type: Int
+        type: Int,
+        f: File
     ) {
         compositeDisposable.add(
-            authorizationsRepository.createAuthorization(token, title, fromDni, toDni, type)
+            authorizationsRepository.createAuthorization(token, title, fromDni, toDni, type, f)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { isLoading.set(true) }
