@@ -30,6 +30,11 @@ fun bindFullName(textView: TextView, user: User) {
     textView.text = user.firstName + " " + user.lastName
 }
 
+@BindingAdapter("bindAuthName")
+fun bindAuthName(textView: TextView, auth: Authorization) {
+    textView.text = auth.id.toString() + " - " + auth.title
+}
+
 @BindingAdapter("bindColor")
 fun bindColor(textView: TextView, status: String) {
     when(status){
