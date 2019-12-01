@@ -1,14 +1,18 @@
 package com.example.admin.screens.new_authorization
 
+import android.Manifest
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View.GONE
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -44,6 +48,12 @@ class NewAuthorizationActivity : DaggerAppCompatActivity() {
         val sharedPref = this.getSharedPreferences("TOKEN SP", Context.MODE_PRIVATE) ?: return
         token = sharedPref.getString("TOKEN", "")
         dni = sharedPref.getString("DNI", "")
+
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+            1234
+        )
 
         init()
     }
@@ -93,7 +103,7 @@ class NewAuthorizationActivity : DaggerAppCompatActivity() {
                 if (Validator.authValidator(binding, hasImage)) {
 
                     val bos = ByteArrayOutputStream()
-                    imageBitmap.compress(Bitmap.CompressFormat.JPEG, 0, bos)
+                    imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
                     val bitmapData = bos.toByteArray()
 
                     val f = File(this.cacheDir, "image")
@@ -185,12 +195,24 @@ class NewAuthorizationActivity : DaggerAppCompatActivity() {
     val REQUEST_IMAGE_CAPTURE = 1
     val SELECT_IMAGE = 2
 
+    lateinit var imageUri: Uri
+
     private fun dispatchTakePictureIntent() {
+        val values = ContentValues()
+        values.put(MediaStore.Images.Media.TITLE, "New Picture")
+        values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera")
+        imageUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
+        startActivityForResult(intent, REQUEST_IMAGE_CAPTURE)
+
+        /*
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             takePictureIntent.resolveActivity(packageManager)?.also {
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
             }
         }
+         */
     }
 
     private fun dispatchGetPictureIntent() {
@@ -203,7 +225,8 @@ class NewAuthorizationActivity : DaggerAppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            imageBitmap = data?.extras?.get("data") as Bitmap
+            //imageBitmap = data?.extras?.get("data") as Bitmap
+            imageBitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, imageUri)
             binding.image.setImageBitmap(imageBitmap)
             hideImageSelection()
             hasImage = true
